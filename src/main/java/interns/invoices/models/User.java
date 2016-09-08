@@ -1,14 +1,17 @@
 package interns.invoices.models;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.util.Set;
+import javax.persistence.Table;
 
 /**
  * Defines a user which holds the
  * invoices created by the user.
  */
 @Entity
+@Table(name = "users")
 public class User extends BaseEntity {
     private String email;
     /** Bulgarian: издадени фактури */

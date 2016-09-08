@@ -1,20 +1,28 @@
 package interns.invoices;
 
-import interns.invoices.models.Company;
-import interns.invoices.models.Invoice;
-import interns.invoices.models.Item;
-import interns.invoices.repositories.CompanyRepository;
-import interns.invoices.repositories.InvoiceRepository;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
-import java.util.List;
+import interns.invoices.models.Company;
+import interns.invoices.models.Invoice;
+import interns.invoices.models.Item;
+import interns.invoices.repositories.CompanyRepository;
+import interns.invoices.repositories.InvoiceRepository;
 
 @SpringBootApplication
 public class PaysafeInternsInvoicesApplication {
+
+    @Autowired
+    InvoiceRepository invoiceRepository;
+
+    @Autowired
+    CompanyRepository companyRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaysafeInternsInvoicesApplication.class, args);
@@ -29,7 +37,9 @@ public class PaysafeInternsInvoicesApplication {
      * @return
      */
 	@Bean
-	CommandLineRunner runner(InvoiceRepository invoiceRepository, CompanyRepository companyRepository) {
+    CommandLineRunner runner() {
+        System.out.println("vleze");
+
 		return (args) -> {
 			{
 				Invoice invoice = new Invoice();
