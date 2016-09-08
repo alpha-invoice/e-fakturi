@@ -1,38 +1,51 @@
 package interns.invoices.models;
 
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
  * Bulgarian: фактура
+ * {@link JsonIdentityInfo} annotation is used every time
+ * Jackson serializes your object. It will add an ID to it,
+ * so that it won't entirely "scan" the object again every time.
+ * We use it to prevent infinite recursion while having chained
+ * relations between objects User -> Company -> Invoice -> Company
  */
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@invoiceId")
 public class Invoice extends BaseEntity {
-    /** Bulgarian: номер на фактура */
+    /**
+     * Bulgarian: номер на фактура
+     */
     @NotNull
     private String invoiceNumber;
 
-    /** Bulgarian: доставчик */
-    @OneToOne
-    @NotNull
+    /**
+     * Bulgarian: доставчик
+     */
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
     private Company sender;
 
-    /** Bulgarian: получател */
+    /**
+     * Bulgarian: получател
+     */
     @OneToOne
     @NotNull
     private Company recipient;
 
-    /** Bulgarian: наименования на стоките/услугите */
+    /**
+     * Bulgarian: наименования на стоките/услугите
+     */
     @ElementCollection()
     @LazyCollection(LazyCollectionOption.FALSE)
     @NotNull
@@ -75,10 +88,18 @@ public class Invoice extends BaseEntity {
 
     @Override
     public String toString() {
+        StringBuilder recipientOutput = new StringBuilder();
+        recipientOutput.append("{")
+                .append("name:").append(recipient.getName())
+                .append(",eik:").append(recipient.getEik())
+                .append(",VAT:").append(recipient.getVATNumber())
+                .append(",mol:").append(recipient.getMol())
+                .append(",address:").append(recipient.getAddress())
+                .append("}");
+
         return "Invoice{" +
                 "invoiceNumber='" + invoiceNumber + '\'' +
-                ", sender=" + sender +
-                ", recipient=" + recipient +
+                ", recipient=" + recipientOutput +
                 ", items=" + items +
                 '}';
     }

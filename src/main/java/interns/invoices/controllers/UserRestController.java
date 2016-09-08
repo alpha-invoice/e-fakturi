@@ -4,6 +4,7 @@ import interns.invoices.models.User;
 import interns.invoices.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class UserRestController {
      * @return a json representation of the found User or null
      */
     @RequestMapping("/user/{id}")
-    User getUserById(@Param("id") Long id) {
+    User getUserById(@PathVariable("id") Long id) {
         return this.userRepository.findOne(id);
     }
 }

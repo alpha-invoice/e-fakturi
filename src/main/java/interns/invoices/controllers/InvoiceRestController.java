@@ -46,7 +46,7 @@ public class InvoiceRestController {
      * @return a json representation of an invoice or null.
      */
     @RequestMapping("/invoices/{id}")
-    Invoice getInvoiceById(@Param("id") Long id) {
+    Invoice getInvoiceById(@PathVariable("id") Long id) {
         return this.invoiceRepository.findOne(id);
     }
 

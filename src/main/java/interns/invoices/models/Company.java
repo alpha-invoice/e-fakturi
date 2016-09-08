@@ -1,15 +1,21 @@
 package interns.invoices.models;
 
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
- * Used for defining recipient and sender of an
- * {@link Invoice}
+ * Used for defining recipient and sender of an {@link Invoice}.
+ * {@link JsonIdentityInfo} annotation is used every time
+ * Jackson serializes your object. It will add an ID to it,
+ * so that it won't entirely "scan" the object again every time.
+ * We use it to prevent infinite recursion while having chained
+ * relations between objects User -> Company -> Invoice -> Company
  */
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@companyId")
 public class Company extends BaseEntity {
     /** Bulgarian: име на фирма */
     private String name;
@@ -23,6 +29,13 @@ public class Company extends BaseEntity {
     private boolean isVATRegistered;
     /** Bulgarian: адрес на фирмата */
     private String address;
+    /** Bulgarian: издадени фактури от фирма */
+    @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Invoice> issuedInvoices;
+    /** Bulgarian: потребителя, записал фирмата*/
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
     public Company() {
     }
@@ -80,6 +93,22 @@ public class Company extends BaseEntity {
         this.address = address;
     }
 
+    public Set<Invoice> getIssuedInvoices() {
+        return issuedInvoices;
+    }
+
+    public void setIssuedInvoices(Set<Invoice> issuedInvoices) {
+        this.issuedInvoices = issuedInvoices;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Company{" +
@@ -88,6 +117,7 @@ public class Company extends BaseEntity {
                 ", eik='" + eik + '\'' +
                 ", isVATRegistered=" + isVATRegistered +
                 ", address='" + address + '\'' +
+                ", issuedInvoices=" + issuedInvoices +
                 '}';
     }
 }
