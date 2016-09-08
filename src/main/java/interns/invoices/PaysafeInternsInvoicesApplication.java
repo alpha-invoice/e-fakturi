@@ -1,4 +1,4 @@
-package interns.invoices;
+﻿package interns.invoices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +38,6 @@ public class PaysafeInternsInvoicesApplication {
      */
 	@Bean
     CommandLineRunner runner() {
-        System.out.println("vleze");
-
 		return (args) -> {
 			{
 				Invoice invoice = new Invoice();
