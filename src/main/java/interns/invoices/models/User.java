@@ -18,7 +18,7 @@ import java.util.Set;
  * We use it to prevent infinite recursion while having chained
  * relations between objects User -> Company -> Invoice -> Company
  */
-@Entity
+@Entity(name = "users")
 @JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@userId")
 public class User extends BaseEntity {
     private String email;
