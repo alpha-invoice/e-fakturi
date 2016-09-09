@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var invoice_service_1 = require("../services/invoice.service");
 var invoice_component_1 = require("./invoice.component");
+var router_1 = require("@angular/router");
 /**
  * Represents a list of all invoices provided
  * from a service. Uses dependency injection to load
@@ -37,7 +38,7 @@ var InvoiceListComponent = (function () {
             selector: 'invoice-list',
             templateUrl: 'templates/invoice-list.component.html',
             providers: [invoice_service_1.InvoiceService],
-            directives: [invoice_component_1.InvoiceComponent]
+            directives: [router_1.ROUTER_DIRECTIVES, invoice_component_1.InvoiceComponent]
         }), 
         __metadata('design:paramtypes', [invoice_service_1.InvoiceService])
     ], InvoiceListComponent);

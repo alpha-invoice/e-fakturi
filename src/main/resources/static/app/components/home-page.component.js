@@ -8,24 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 /**
- * Represents the main class from where the Angular App starts.
- * @class
+ * This is the home page component which loads
+ * when you load the invoices site.
  */
-var AppComponent = (function () {
-    function AppComponent() {
+var HomePageComponent = (function () {
+    function HomePageComponent() {
     }
-    AppComponent = __decorate([
+    HomePageComponent = __decorate([
         core_1.Component({
-            selector: 'app-root',
-            templateUrl: 'templates/app.component.html',
+            selector: 'home-page',
+            templateUrl: 'templates/home-page.component.html',
+            styleUrls: ['templates/styles/css/bootstrap.css'],
             directives: [router_1.ROUTER_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], HomePageComponent);
+    return HomePageComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.HomePageComponent = HomePageComponent;
+//# sourceMappingURL=home-page.component.js.map

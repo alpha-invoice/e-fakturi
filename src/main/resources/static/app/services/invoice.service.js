@@ -49,6 +49,7 @@ var InvoiceService = (function () {
         return this.http.get(this.serviceUrl)
             .map(function (res) { return res.json(); })
             .map(function (invoice) { return invoice.map(function (i) {
+            debugger;
             var senderCompany = company_1.Company.parseInputObjectToCompany(i.sender);
             var recipientCompany = company_1.Company.parseInputObjectToCompany(i.recipient);
             i.items.map(function (i) { return item_1.Item.parseInputObjectToItem(i); });
