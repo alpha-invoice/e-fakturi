@@ -8,24 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require("@angular/router");
+var core_1 = require("@angular/core");
 /**
- * Represents the main class from where the Angular App starts.
- * @class
+ * Page not found error handler
  */
-var AppComponent = (function () {
-    function AppComponent() {
+var PageNotFoundComponent = (function () {
+    function PageNotFoundComponent() {
     }
-    AppComponent = __decorate([
+    PageNotFoundComponent = __decorate([
         core_1.Component({
-            selector: 'app-root',
-            templateUrl: 'templates/app.component.html',
-            directives: [router_1.ROUTER_DIRECTIVES]
+            templateUrl: 'templates/pagenotfound.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], PageNotFoundComponent);
+    return PageNotFoundComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.PageNotFoundComponent = PageNotFoundComponent;
+//# sourceMappingURL=pagenotfound.component.js.map

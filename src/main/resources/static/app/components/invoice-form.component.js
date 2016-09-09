@@ -13,6 +13,12 @@ var invoice_1 = require("../models/invoice");
 var company_1 = require("../models/company");
 var item_1 = require("../models/item");
 var invoice_service_1 = require("../services/invoice.service");
+var ng2_file_upload_1 = require('ng2-file-upload');
+// URL for uploading a template
+var UPLOAD_TEMPLATE_URL = 'http://localhost:8080/api/upload';
+// 3 MB
+var MAX_FILE_SIZE = 3 * 1024 * 1024;
+var DOCX_FILE_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 /**
  * Represents a form which submits new invoices
  * to the service. Uses dependency injection to load
@@ -31,6 +37,41 @@ var InvoiceFormComponent = (function () {
      */
     InvoiceFormComponent.prototype.ngOnInit = function () {
         this.invoiceToBeStored = invoice_1.Invoice.createEmptyInvoice();
+        this.isFileSizeTooLarge = false;
+        this.isFileTypeInvalid = false;
+        this.initFileUploader();
+    };
+    /**
+     * Initialize the FileUploader instance (this.uploader) with basic configurations
+     */
+    InvoiceFormComponent.prototype.initFileUploader = function () {
+        var _this = this;
+        // Instantiate a file uploader using an upload URL
+        // TODO: Add an authToken to the file uploader when authentication is implemented
+        this.uploader = new ng2_file_upload_1.FileUploader({ url: UPLOAD_TEMPLATE_URL });
+        // Set constraints for file size (max 3MB) and file extension (.docx)
+        this.uploader.setOptions({
+            allowedMimeType: [DOCX_FILE_MIME_TYPE],
+            maxFileSize: MAX_FILE_SIZE
+        });
+        // Hook: Set the method type for uploading an item to 'POST'                          
+        this.uploader.onBeforeUploadItem = function (fileItem) {
+            fileItem.method = 'POST';
+        };
+        // Hook: When the user links a file, upload immediately
+        this.uploader.onAfterAddingFile = function (fileItem) {
+            fileItem.upload();
+            _this.isFileSizeTooLarge = false;
+            _this.isFileTypeInvalid = false;
+        };
+        /**
+         * Hook: Give feedback to the user if the file he wants to upload is invalid and doesn't meet the constraints.
+         * Based on the isFileSizeTooLarge and isFileTypeInvalid values different error messages are displayed in the HTML.
+         */
+        this.uploader.onWhenAddingFileFailed = function (item, filter, options) {
+            _this.isFileSizeTooLarge = !_this.uploader._fileSizeFilter(item);
+            _this.isFileTypeInvalid = !_this.uploader._mimeTypeFilter(item);
+        };
     };
     /**
      * EventHandler method which is called when the form Add button
@@ -63,7 +104,8 @@ var InvoiceFormComponent = (function () {
         core_1.Component({
             selector: 'invoice-form',
             templateUrl: 'templates/invoice-form.component.html',
-            providers: [invoice_service_1.InvoiceService]
+            providers: [invoice_service_1.InvoiceService],
+            directives: [ng2_file_upload_1.FILE_UPLOAD_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [invoice_service_1.InvoiceService])
     ], InvoiceFormComponent);

@@ -6,9 +6,17 @@
  * User Configuration.
  **********************************************************************************************/
 /** Map relative paths to URLs. */
-var map = {};
+var map = {
+    'ng2-file-upload': 'vendor/ng2-file-upload'
+};
 /** User packages configuration. */
-var packages = {};
+var packages = {
+    'ng2-file-upload': {
+        format: 'cjs',
+        defaultExtension: 'js',
+        main: 'ng2-file-upload.js'
+    }
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /***********************************************************************************************
  * Everything underneath this line is managed by the CLI.
