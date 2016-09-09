@@ -21,7 +21,7 @@ public class DownloadPDF {
     private static final String CONTENT_DISPOSITION_TYPE_INLINE_STRING = "inline;filname=";
     private static final String THE_NAME_OF_THE_FILE_SENDING_DOWNLOAD = "invoice.pdf";
     private static final String CONTENT_DISPOSITION_TYPE_ATACHMENT_STRING = "attachment;filename=";
-    private static final String samplePDF = "C:/Users/dimitarpahnev/Desktop/sample.pdf";
+    private static final String samplePDF = "src/main/resources/static/sample.pdf";
 
     /**
      * Return response with pdf file for preview.
