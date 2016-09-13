@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Message xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.registryagency.bg/schemas/envelopev2">
+<Header>
+<MessageDetails>
+<CreateDate>2009-10-20T00:51:19.5662962+03:00</CreateDate>
+<Creator>registryAgency</Creator>
+<ID>cd1a035d-54b9-4f54-a4b8-d3f5ab4a65fe</ID>
+<Reason>Notification</Reason>
+</MessageDetails>
+<SenderDetails>
+<Name>Export</Name>
+<Uri>ExportUri</Uri>
+</SenderDetails>
+<TargetDetails>
+<Name>targetName</Name>
+<Uri>TargetUri</Uri>
+</TargetDetails>
+<Status>OK</Status>
+</Header>
+<Body>
+<Deeds>
+<Deed xmlns="http://www.registryagency.bg/schemas/deedv2" CompanyName="ДЕМЕТРА 2007" DeedStatus="E" GUID="bd8b0bbd7fb74cd0a47119574a232ad5" UIC="117683847" LegalForm="OOD">
+<IncomingPackageInfo IncomingNumber="20080523142113" LeadingApp="A4" PackageType="Preregistration" IncomingGuid="36fe8432f7fd49408edffa70d6a5ca1e">
+<Documents>
+<Document ApplicationType="A4" Description="Сканирано копие на заявление образец А4"></Document>
+<Document ApplicationType="G1" Description="Сканирано копие на заявление образец Г1"></Document>
+<Document ApplicationType="A4" Description="Удостоверение за актуално състояние по § 4, ал. 2 ЗТР"></Document>
+<Document ApplicationType="G1" Description="Актуален учредителен акт"></Document>
+</Documents>
+</IncomingPackageInfo>
+<SubDeed SubUICType="MainCircumstances" SubUIC="0018">
+<UIC xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00010" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" RecordIncomingNumber="20080523142113" RecordID="2020830" FieldOperation="Add" IsNew="true" uic="117683847" GroupID="383277">
+<CompanyControl>ДЕМЕТРА 2007 - ООД</CompanyControl>
+<BulstatDeed>
+<Deed>685</Deed>
+<Year>2007</Year>
+<CourtCode>450</CourtCode>
+</BulstatDeed>
+</UIC>
+<Company xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00020" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" RecordIncomingNumber="20080523142113" RecordID="2020832" FieldOperation="Add" GroupID="383277">ДЕМЕТРА 2007</Company>
+<LegalForm xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00030" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" RecordIncomingNumber="20080523142113" Text="Дружество с ограничена отговорност" RecordID="2020834" FieldOperation="Add" Code="4" GroupID="383277"></LegalForm>
+<Transliteration xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00040" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" RecordIncomingNumber="20080523142113" RecordID="2020934" FieldOperation="Add" GroupID="383277">DEMETRA 2007</Transliteration>
+<Seat xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00050" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" RecordIncomingNumber="20080523142113" RecordID="2020833" FieldOperation="Add" GroupID="383277">
+<Address>
+<CountryID>1</CountryID>
+<CountryCode>BGR</CountryCode>
+<Country>БЪЛГАРИЯ</Country>
+<IsForeign>false</IsForeign>
+<DistrictID>47</DistrictID>
+<DistrictEkatte>RSE</DistrictEkatte>
+<District>Русе</District>
+<Municipalityid>195</Municipalityid>
+<MunicipalityEkatte>RSE27</MunicipalityEkatte>
+<Municipality>Русе</Municipality>
+<SettlementID>3407</SettlementID>
+<SettlementEKATTE>63427</SettlementEKATTE>
+<Settlement>гр. Русе</Settlement>
+<AreaID xsi:nil="true"></AreaID>
+<Area></Area>
+<AreaEkatte></AreaEkatte>
+<PostCode>7015</PostCode>
+<ForeignPlace></ForeignPlace>
+<HousingEstate></HousingEstate>
+<Street>ул.ДАМЕ ГРУЕВ</Street>
+<StreetNumber>3</StreetNumber>
+<Block></Block>
+<Entrance>8</Entrance>
+<Floor>8</Floor>
+<Apartment></Apartment>
+</Address>
+<Contacts>
+<Phone></Phone>
+<Fax></Fax>
+<EMail></EMail>
+<URL></URL>
+</Contacts>
+</Seat>
+<SubjectOfActivity xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00060" IsBank="false" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" RecordIncomingNumber="20080523142113" IsBankText="" RecordID="2020935" FieldOperation="Add" IsInsurer="false" IsInsurerText="" GroupID="383277">ТЪРГОВСКА, СТРОИТЕЛНА И КОМИСИОННА ДЕЙНОСТ, ВНОС, ИЗНОС,   ПРОИЗВОДСТВО НА ПРОМИШЛЕНИ И СЕЛСКОСТОПАНСКИ   ПРОИЗВЕДЕНИЯ, ХРАНИТЕЛНИ СТОКИ, СТОКИ ЗА БИТА, БИТОВИ   УСЛУГИ, СЕЛСКОСТОПАНСКИ УСЛУГИ, СЕРВИЗНА ДЕЙНОСТ,   РЕКЛАМНА ДЕЙНОСТ И МАРКЕТИНГ, ИНЖЕНЕРИНГОВА ДЕЙНОСТ И   ВСЯКАКВА ДРУГА ТЪРГОВСКА ДЕЙНОСТ И УСЛУГИ, НЕЗАБРАНЕНИ   СЪС ЗАКОН, ВКЛЮЧИТЕЛНО И ТЕЗИ, ПОПАДАЩИ ПОД СПЕЦИАЛЕН ЗАКОНОУСТАНОВЕН РЕЖИМ, ИЗИСКВАЩ ПРЕДВАРИТЕЛНО    РАЗРЕШЕНИЕ (СЛЕД ПОЛУЧАВАНЕТО МУ).</SubjectOfActivity>
+<Managers xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00070" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" FieldOperation="Add">
+<Manager RecordIncomingNumber="20080523142113" RecordID="2020982" GroupID="383277">
+<Person IsForeignTraderText="0">
+<Name>ЕМИЛ ТОНЧЕВ ГЕОРГИЕВ</Name>
+<IndentType>EGN</IndentType>
+<Indent>9766DCAB817AA4F8A67B80B0A828ECDB972AEF51E021A96B7BF35E5B7D7EBFE6</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Person>
+</Manager>
+<Manager RecordIncomingNumber="20080523142113" RecordID="2020984" GroupID="383277">
+<Person IsForeignTraderText="0">
+<Name>ЕМИЛИЯ ДИМИТРОВА ГЕОРГИЕВА</Name>
+<IndentType>EGN</IndentType>
+<Indent>59C52223B50CE05DB79BBE241B5C708051B97D51FDCAFB25B89C4F6C81961B1E</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Person>
+</Manager>
+</Managers>
+<WayOfRepresentation xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00110" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" severally="1" RecordIncomingNumber="20080523142113" RecordID="2020983" FieldOperation="Add" jointly="0" otherWay="0" GroupID="383277"></WayOfRepresentation>
+<Partners xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00190" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" FieldOperation="Add">
+<Partner RecordIncomingNumber="20080523142113" share="2500" RecordID="2021010" GroupID="383277">
+<Subject IsForeignTraderText="0">
+<Name>ЕМИЛ ТОНЧЕВ ГЕОРГИЕВ</Name>
+<IndentType>EGN</IndentType>
+<Indent>9766DCAB817AA4F8A67B80B0A828ECDB972AEF51E021A96B7BF35E5B7D7EBFE6</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Subject>
+</Partner>
+<Partner RecordIncomingNumber="20080523142113" share="2500" RecordID="2021011" GroupID="383277">
+<Subject IsForeignTraderText="0">
+<Name>ЕМИЛИЯ ДИМИТРОВА ГЕОРГИЕВА</Name>
+<IndentType>EGN</IndentType>
+<Indent>59C52223B50CE05DB79BBE241B5C708051B97D51FDCAFB25B89C4F6C81961B1E</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Subject>
+</Partner>
+</Partners>
+<Funds xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00310" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" RecordIncomingNumber="20080523142113" RecordID="2021032" FieldOperation="Add" GroupID="383277">5000</Funds>
+<DepositedFunds xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00320" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" RecordIncomingNumber="20080523142113" RecordID="2021033" FieldOperation="Add" GroupID="383277">3500</DepositedFunds>
+</SubDeed>
+<SubDeed SubUICType="G1_ActAnnouncement" SubUIC="0018">
+<StatementsA xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="10019A" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" FieldOperation="Add">
+<StatementA ActModeValue="1" Description="Актуален учредителен акт" ActModeText="Актуален учредителен акт" ActDate="" RecordIncomingNumber="20080523142113" RecordID="2021099" ActYear="" GroupID="383277" ActID="d9ce339ef0924bb5b8291dd879170960"></StatementA>
+</StatementsA>
+<StatementsAJ xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="1001AJ" FieldActionDate="2008-07-03T19:07:39" FieldEntryNumber="20080703190739" FieldOperation="Add">
+<StatementAJ ActModeValue="36" Description="Актуален учредителен акт" ActModeText="Актуален дружествен договор/учредителен акт/устав" ActDate="" RecordIncomingNumber="20080523142113" RecordID="6657781" ActYear="" GroupID="383277" ActID="d9ce339ef0924bb5b8291dd879170960"></StatementAJ>
+</StatementsAJ>
+</SubDeed>
+</Deed>
+<Deed xmlns="http://www.registryagency.bg/schemas/deedv2" CompanyName="ДЕМЕТРА ЮНИОН" DeedStatus="E" GUID="2f788df443da4645bef03eb2e4660268" UIC="117694911" LegalForm="EOOD">
+<IncomingPackageInfo IncomingNumber="20080523142509" LeadingApp="A4" PackageType="Preregistration" IncomingGuid="972a1f138e3a43438a0c51909b105f7c">
+<Documents>
+<Document ApplicationType="A4" Description="Сканирано копие на заявление образец А4"></Document>
+<Document ApplicationType="G1" Description="Сканирано копие на заявление образец Г1"></Document>
+<Document ApplicationType="A4" Description="Удостоверение за актуално състояние по § 4, ал. 2 ЗТР"></Document>
+<Document ApplicationType="G1" Description="Актуален учредителен акт"></Document>
+</Documents>
+</IncomingPackageInfo>
+<SubDeed SubUICType="MainCircumstances" SubUIC="0017">
+<UIC xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00010" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" RecordID="2020937" FieldOperation="Add" IsNew="true" uic="117694911" GroupID="383300">
+<CompanyControl>ДЕМЕТРА ЮНИОН - ЕООД</CompanyControl>
+<BulstatDeed>
+<Deed>1740</Deed>
+<Year>2007</Year>
+<CourtCode>450</CourtCode>
+</BulstatDeed>
+</UIC>
+<Company xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00020" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" RecordID="2020938" FieldOperation="Add" GroupID="383300">ДЕМЕТРА ЮНИОН</Company>
+<LegalForm xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00030" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" Text="Еднолично дружество с ограничена отговорност
+" RecordID="2020941" FieldOperation="Add" Code="10" GroupID="383300"></LegalForm>
+<Transliteration xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00040" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" RecordID="2021100" FieldOperation="Add" GroupID="383300">DEMETRA UNION</Transliteration>
+<Seat xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00050" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" RecordID="2020939" FieldOperation="Add" GroupID="383300">
+<Address>
+<CountryID>1</CountryID>
+<CountryCode>BGR</CountryCode>
+<Country>БЪЛГАРИЯ</Country>
+<IsForeign>false</IsForeign>
+<DistrictID>47</DistrictID>
+<DistrictEkatte>RSE</DistrictEkatte>
+<District>Русе</District>
+<Municipalityid>195</Municipalityid>
+<MunicipalityEkatte>RSE27</MunicipalityEkatte>
+<Municipality>Русе</Municipality>
+<SettlementID>3407</SettlementID>
+<SettlementEKATTE>63427</SettlementEKATTE>
+<Settlement>гр. Русе</Settlement>
+<AreaID xsi:nil="true"></AreaID>
+<Area></Area>
+<AreaEkatte></AreaEkatte>
+<PostCode>7015</PostCode>
+<ForeignPlace></ForeignPlace>
+<HousingEstate></HousingEstate>
+<Street>ул. ДАМЕ ГРУЕВ</Street>
+<StreetNumber>3</StreetNumber>
+<Block></Block>
+<Entrance>8</Entrance>
+<Floor>8</Floor>
+<Apartment></Apartment>
+</Address>
+<Contacts>
+<Phone></Phone>
+<Fax></Fax>
+<EMail></EMail>
+<URL></URL>
+</Contacts>
+</Seat>
+<SubjectOfActivity xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00060" IsBank="false" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" IsBankText="" RecordID="2020940" FieldOperation="Add" IsInsurer="false" IsInsurerText="" GroupID="383300">ПPOИЗBOДCTBO  И TЪPГOBИЯ C ПPOMИШЛEHИ И HEПPOMИШЛEHИ CTOKИ B  CTPAHATA  И  ЧУЖБИHA; ПPOИЗBOДCTBO И TЪPГOBИЯ CЪC CEЛCKOCTOПAHCKИ  ПPOДУKTИ  И  XPAHИTEЛHИ  CTOKИ;  CEPBИЗHA  ДEЙHOCT;  ФИHAHCOBA  И  CЧETOBOДHA  ДEЙHOCT;  OKAЗИOHHA  И  ЛИЗИHГOBA  ДEЙHOCT; OБУЧEHИE;  TЪPГOBCKO   ПOCPEДHИЧECTBO   И   ПPEДCTABИTEЛCTBO   HA  MECTHИ  И  ЧУЖДECTPAHHИ  ЛИЦA;  БAPTEPHИ  CДEЛKИ;  CПEДИTOPCKA,  PEKЛAMHA  И  CKЛAДOBA  ДEЙHOCT; BCЯKAKBA ДPУГA  TЪPГOBCKA  ДEЙHOCT И УCЛУГИ,  HEЗAБPAHEHИ CЬC ЗAKOH, BKЛЮЧИTEЛHO И TEЗИ, ПOПAДAЩИ ПOД CПEЦИAЛEH  ЗAKOHOУCTAHOBEH  PEЖИM,  ИЗИCKBAЩ ПPEДBAPИTEЛHO PAЗPEШEHИE / CЛEД  ПOЛУЧABAHETO MУ /.</SubjectOfActivity>
+<Managers xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00070" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" FieldOperation="Add">
+<Manager RecordIncomingNumber="20080523142509" RecordID="2021106" GroupID="383300">
+<Person IsForeignTraderText="0">
+<Name>ЕМИЛ ТОНЧЕВ ГЕОРГИЕВ</Name>
+<IndentType>EGN</IndentType>
+<Indent>9766DCAB817AA4F8A67B80B0A828ECDB972AEF51E021A96B7BF35E5B7D7EBFE6</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Person>
+</Manager>
+</Managers>
+<SoleCapitalOwner xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00230" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" RecordID="2021109" FieldOperation="Add" GroupID="383300">
+<Subject IsForeignTraderText="0">
+<Name>ЕМИЛ ТОНЧЕВ ГЕОРГИЕВ</Name>
+<IndentType>EGN</IndentType>
+<Indent>9766DCAB817AA4F8A67B80B0A828ECDB972AEF51E021A96B7BF35E5B7D7EBFE6</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Subject>
+</SoleCapitalOwner>
+<Funds xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00310" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" RecordID="2021127" FieldOperation="Add" GroupID="383300">5000</Funds>
+<DepositedFunds xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00320" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" RecordIncomingNumber="20080523142509" RecordID="2021128" FieldOperation="Add" GroupID="383300">3500</DepositedFunds>
+</SubDeed>
+<SubDeed SubUICType="G1_ActAnnouncement" SubUIC="0017">
+<StatementsA xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="10019A" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" FieldOperation="Add">
+<StatementA ActModeValue="1" Description="Актуален учредителен акт" ActModeText="Актуален учредителен акт" ActDate="" RecordIncomingNumber="20080523142509" RecordID="2021209" ActYear="" GroupID="383300" ActID="ca20e4b9330b4ce5886efee8d6362e85"></StatementA>
+</StatementsA>
+<StatementsAJ xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="1001AJ" FieldActionDate="2008-07-03T19:20:28" FieldEntryNumber="20080703192028" FieldOperation="Add">
+<StatementAJ ActModeValue="36" Description="Актуален учредителен акт" ActModeText="Актуален дружествен договор/учредителен акт/устав" ActDate="" RecordIncomingNumber="20080523142509" RecordID="6657470" ActYear="" GroupID="383300" ActID="ca20e4b9330b4ce5886efee8d6362e85"></StatementAJ>
+</StatementsAJ>
+</SubDeed>
+</Deed>
+<Deed xmlns="http://www.registryagency.bg/schemas/deedv2" CompanyName="М-КАР ТУНИНГ - МАРИН ЧОМАКОВ" DeedStatus="E" GUID="2c13218890914579925dc48f65937bc8" UIC="104645992" LegalForm="ET">
+<IncomingPackageInfo IncomingNumber="20080523131640" LeadingApp="A1" PackageType="Preregistration" IncomingGuid="0644d8fae58345edb73a85c69b7f2b1d">
+<Documents>
+<Document ApplicationType="A1" Description="Сканирано копие на заявление образец А1"></Document>
+<Document ApplicationType="A1" Description="Удостоверение за актуално състояние по § 4, ал. 2 ЗТР"></Document>
+</Documents>
+</IncomingPackageInfo>
+<SubDeed SubUICType="MainCircumstances" SubUIC="0019">
+<UIC xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00010" FieldActionDate="2008-07-03T17:18:25" FieldEntryNumber="20080703171825" RecordIncomingNumber="20080523131640" RecordID="2017691" FieldOperation="Add" IsNew="true" uic="104645992" GroupID="382623">
+<CompanyControl>М-КАР ТУНИНГ - МАРИН ЧОМАКОВ</CompanyControl>
+<BulstatDeed>
+<Deed>1319</Deed>
+<Year>2005</Year>
+<CourtCode>410</CourtCode>
+</BulstatDeed>
+</UIC>
+<Company xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00020" FieldActionDate="2008-07-03T17:18:25" FieldEntryNumber="20080703171825" RecordIncomingNumber="20080523131640" RecordID="2017692" FieldOperation="Add" GroupID="382623">М-КАР ТУНИНГ - МАРИН ЧОМАКОВ</Company>
+<LegalForm xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00030" FieldActionDate="2008-07-03T17:18:25" FieldEntryNumber="20080703171825" RecordIncomingNumber="20080523131640" Text="Едноличен търговец" RecordID="2017694" FieldOperation="Add" Code="1" GroupID="382623"></LegalForm>
+<Seat xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00050" FieldActionDate="2008-07-03T17:18:25" FieldEntryNumber="20080703171825" RecordIncomingNumber="20080523131640" RecordID="2017693" FieldOperation="Add" GroupID="382623">
+<Address>
+<CountryID>1</CountryID>
+<CountryCode>BGR</CountryCode>
+<Country>БЪЛГАРИЯ</Country>
+<IsForeign>false</IsForeign>
+<DistrictID>33</DistrictID>
+<DistrictEkatte>VTR</DistrictEkatte>
+<District>Велико Търново</District>
+<Municipalityid>61</Municipalityid>
+<MunicipalityEkatte>VTR06</MunicipalityEkatte>
+<Municipality>Горна Оряховица</Municipality>
+<SettlementID>413</SettlementID>
+<SettlementEKATTE>16359</SettlementEKATTE>
+<Settlement>гр. Горна Оряховица</Settlement>
+<AreaID xsi:nil="true"></AreaID>
+<Area></Area>
+<AreaEkatte></AreaEkatte>
+<PostCode>5100</PostCode>
+<ForeignPlace></ForeignPlace>
+<HousingEstate></HousingEstate>
+<Street>ул.ШЕЙНОВО</Street>
+<StreetNumber>28</StreetNumber>
+<Block></Block>
+<Entrance></Entrance>
+<Floor></Floor>
+<Apartment></Apartment>
+</Address>
+<Contacts>
+<Phone>0887 305 505</Phone>
+<Fax>0618 606 28</Fax>
+<EMail>mcartuning@abv.bg</EMail>
+<URL>m-cartuning.com</URL>
+</Contacts>
+</Seat>
+<SubjectOfActivity xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00060" IsBank="false" FieldActionDate="2008-07-03T17:18:25" FieldEntryNumber="20080703171825" RecordIncomingNumber="20080523131640" IsBankText="" RecordID="2017941" FieldOperation="Add" IsInsurer="false" IsInsurerText="" GroupID="382623">ПРОИЗВОДСТВО И ТЪРГОВИЯ СЪС СЕЛСКОСТОПАНСКИ, ХРАНИТЕЛНИ И ПРОМИШЛЕНИ СТОКИ; СТРОИТЕЛНО И  СТРОИТЕЛНО - РЕМОНТНИ ДЕЙНОСТИ; ВНОС И ИЗНОС; ТРАНСПОРТНА ДЕЙНОСТ; ВЪТРЕШЕН И МЕЖДУНАРОДЕН ТУРИЗЪМ; РЕСТОРАНТЬОРСТВО И ХОТЕЛИЕРСТВО; КОМИСИОННА, КОНСИГНАЦИОННА, ОКАЗИОННА, АНТИКВАРНА, АМБУЛАНТНА, СПЕДИЦИОННА, СКЛАДОВА, КАКТО И ВСЯКАКВИ ДРУГИ ДЕЙНОСТИ И УСЛУГИ НЕЗАБРАНЕНИ ОТ ЗАКОНА.</SubjectOfActivity>
+<PhysicalPersonTrader xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00180" FieldActionDate="2008-07-03T17:18:25" FieldEntryNumber="20080703171825" RecordIncomingNumber="20080523131640" RecordID="2017950" FieldOperation="Add" GroupID="382623">
+<Person IsForeignTraderText="0">
+<Name>МАРИН АНГЕЛОВ ЧОМАКОВ</Name>
+<IndentType>EGN</IndentType>
+<Indent>743196D4EA959D2F8F021FCC21A43038C23668EDDD93176B835CC6606D8F433D</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Person>
+</PhysicalPersonTrader>
+</SubDeed>
+</Deed>
+<Deed xmlns="http://www.registryagency.bg/schemas/deedv2" CompanyName="ЗЕФИР 77" DeedStatus="N" GUID="d72daab9722c4077b6ae34a07ad8bd14" UIC="200233939" LegalForm="EOOD">
+<IncomingPackageInfo IncomingNumber="20080610150634" LeadingApp="A4" PackageType="New" IncomingGuid="ecab0896b8b54ff488c2f03c3860011a">
+<Documents>
+<Document ApplicationType="A4" Description="Сканирано копие на заявление образец А4"></Document>
+<Document ApplicationType="A4" Description="Договор за управление"></Document>
+<Document ApplicationType="A4" Description="Декларация по чл. 142"></Document>
+<Document ApplicationType="A4" Description="Протокол от учредително събрание"></Document>
+<Document ApplicationType="A4" Description="Документ за внесена държавна такса"></Document>
+<Document ApplicationType="A4" Description="Нотариално заверено съгласие и образец от саморъчния подпис на управителя"></Document>
+<Document ApplicationType="A4" Description="Документ за внесен в банка капитал"></Document>
+<Document ApplicationType="A4" Description="Актуален дружествен договор/учредителен акт/устав"></Document>
+</Documents>
+</IncomingPackageInfo>
+<SubDeed SubUICType="MainCircumstances" SubUIC="0011">
+<UIC xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00010" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" RecordID="2292162" FieldOperation="Add" IsNew="true" uic="200233939" GroupID="454197">
+<CompanyControl></CompanyControl>
+<BulstatDeed>
+<Deed></Deed>
+<Year></Year>
+<CourtCode></CourtCode>
+</BulstatDeed>
+</UIC>
+<Company xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00020" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" RecordID="2292380" FieldOperation="Add" GroupID="454197">ЗЕФИР 77</Company>
+<LegalForm xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00030" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" Text="Еднолично дружество с ограничена отговорност
+" RecordID="2292163" FieldOperation="Add" Code="10" GroupID="454197"></LegalForm>
+<Transliteration xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00040" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" RecordID="2292381" FieldOperation="Add" GroupID="454197">ZEFIR 77</Transliteration>
+<Seat xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00050" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" RecordID="2292382" FieldOperation="Add" GroupID="454197">
+<Address>
+<CountryID>1</CountryID>
+<CountryCode>BGR</CountryCode>
+<Country>БЪЛГАРИЯ</Country>
+<IsForeign>false</IsForeign>
+<DistrictID>1</DistrictID>
+<DistrictEkatte>SOF</DistrictEkatte>
+<District>София (столица)</District>
+<Municipalityid>1</Municipalityid>
+<MunicipalityEkatte>SOF46</MunicipalityEkatte>
+<Municipality>Столична</Municipality>
+<SettlementID>1</SettlementID>
+<SettlementEKATTE>68134</SettlementEKATTE>
+<Settlement>гр. София</Settlement>
+<AreaID>5355</AreaID>
+<Area>р-н Илинден</Area>
+<AreaEkatte>68134-12</AreaEkatte>
+<PostCode>1309</PostCode>
+<ForeignPlace></ForeignPlace>
+<HousingEstate>СВЕТА ТРОИЦА</HousingEstate>
+<Street>ул. Сезам</Street>
+<StreetNumber>17</StreetNumber>
+<Block>303Б</Block>
+<Entrance>А</Entrance>
+<Floor>5</Floor>
+<Apartment>13</Apartment>
+</Address>
+<Contacts>
+<Phone></Phone>
+<Fax></Fax>
+<EMail></EMail>
+<URL></URL>
+</Contacts>
+</Seat>
+<SubjectOfActivity xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00060" IsBank="false" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" IsBankText="" RecordID="2292383" FieldOperation="Add" IsInsurer="false" IsInsurerText="" GroupID="454197">ТЪРГОВИЯ НА ЕДРО И ДРЕБНО В СТРАНАТА И В ЧУЖБИНА СЪС СТОКИ И ВЕЩИ В ПЪРВОНАЧАЛЕН, ПРЕРАБОТЕН ИЛИ ОБРАБОТЕН ДИД С ЦЕЛ ПРОДАЖБА, ПОСРЕДНИЧЕСТВО, КОМИСИОННА И ТРАНСПОРТНА ДЕЙНОСТ, КАКТО И ВСЯКА ТЪРГОВСКА ДЕЙНОСТ, НЕЗАБРАНЕНА СЪС ЗАКОН ИЛИ ДРУГ НОРМАТИВЕН АКТ.</SubjectOfActivity>
+<Managers xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00070" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" FieldOperation="Add">
+<Manager RecordIncomingNumber="20080610150634" RecordID="2292392" GroupID="454197">
+<Person IsForeignTraderText="0">
+<Name>ЗДРАВКО ЙОРДАНОВ ПАНДОВ</Name>
+<IndentType>EGN</IndentType>
+<Indent>6BE56201EE72255B7892EFA6255CC2237B224E52229B9D1BD26ED9D9EDB7F3FB</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Person>
+</Manager>
+</Managers>
+<SoleCapitalOwner xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00230" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" RecordID="2292440" FieldOperation="Add" GroupID="454197">
+<Subject IsForeignTraderText="0">
+<Name>ЗДРАВКО ЙОРДАНОВ ПАНДОВ</Name>
+<IndentType>EGN</IndentType>
+<Indent>6BE56201EE72255B7892EFA6255CC2237B224E52229B9D1BD26ED9D9EDB7F3FB</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Subject>
+</SoleCapitalOwner>
+<Funds xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00310" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" RecordID="2292454" FieldOperation="Add" GroupID="454197">5000</Funds>
+<DepositedFunds xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00320" FieldActionDate="2008-07-03T17:19:23" FieldEntryNumber="20080703171923" RecordIncomingNumber="20080610150634" RecordID="2292455" FieldOperation="Add" GroupID="454197">5000</DepositedFunds>
+</SubDeed>
+</Deed>
+<Deed xmlns="http://www.registryagency.bg/schemas/deedv2" CompanyName="БИЛДИНГ - МСМ" DeedStatus="E" GUID="e9e037aefcef4c5eab775a3e089edc86" UIC="104103644" LegalForm="EOOD">
+<IncomingPackageInfo IncomingNumber="20080522114153" LeadingApp="A4" PackageType="Preregistration" IncomingGuid="9d252fa2006a456cb02376f040743ec5">
+<Documents>
+<Document ApplicationType="A4" Description="Сканирано копие на заявление образец А4"></Document>
+<Document ApplicationType="G1" Description="Сканирано копие на заявление образец Г1"></Document>
+<Document ApplicationType="A4" Description="Удостоверение за актуално състояние по § 4, ал. 2 ЗТР"></Document>
+<Document ApplicationType="G1" Description="Актуален учредителен акт"></Document>
+</Documents>
+</IncomingPackageInfo>
+<SubDeed SubUICType="MainCircumstances" SubUIC="0012">
+<UIC xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00010" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" RecordIncomingNumber="20080522114153" RecordID="1991175" FieldOperation="Add" IsNew="true" uic="104103644" GroupID="376781">
+<CompanyControl>БИЛДИНГ - МСМ</CompanyControl>
+<BulstatDeed>
+<Deed>40</Deed>
+<Year>1999</Year>
+<CourtCode>410</CourtCode>
+</BulstatDeed>
+</UIC>
+<Company xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00020" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" RecordIncomingNumber="20080522114153" RecordID="1991216" FieldOperation="Add" GroupID="376781">БИЛДИНГ - МСМ</Company>
+<LegalForm xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00030" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" RecordIncomingNumber="20080522114153" Text="Еднолично дружество с ограничена отговорност
+" RecordID="1991176" FieldOperation="Add" Code="10" GroupID="376781"></LegalForm>
+<Seat xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00050" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" RecordIncomingNumber="20080522114153" RecordID="1991217" FieldOperation="Add" GroupID="376781">
+<Address>
+<CountryID>1</CountryID>
+<CountryCode>BGR</CountryCode>
+<Country>БЪЛГАРИЯ</Country>
+<IsForeign>false</IsForeign>
+<DistrictID>33</DistrictID>
+<DistrictEkatte>VTR</DistrictEkatte>
+<District>Велико Търново</District>
+<Municipalityid>203</Municipalityid>
+<MunicipalityEkatte>VTR28</MunicipalityEkatte>
+<Municipality>Свищов</Municipality>
+<SettlementID>3501</SettlementID>
+<SettlementEKATTE>65766</SettlementEKATTE>
+<Settlement>гр. Свищов</Settlement>
+<AreaID xsi:nil="true"></AreaID>
+<Area></Area>
+<AreaEkatte></AreaEkatte>
+<PostCode>5250</PostCode>
+<ForeignPlace></ForeignPlace>
+<HousingEstate></HousingEstate>
+<Street>КИРИЛ Д.АВРАМОВ</Street>
+<StreetNumber>32</StreetNumber>
+<Block></Block>
+<Entrance></Entrance>
+<Floor></Floor>
+<Apartment></Apartment>
+</Address>
+<Contacts>
+<Phone></Phone>
+<Fax></Fax>
+<EMail></EMail>
+<URL></URL>
+</Contacts>
+</Seat>
+<SubjectOfActivity xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00060" IsBank="false" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" RecordIncomingNumber="20080522114153" IsBankText="" RecordID="1991218" FieldOperation="Add" IsInsurer="false" IsInsurerText="" GroupID="376781">ПРОИЗВОДСТВО И ТЪРГОВИЯ СЪС СТРОИТЕЛНИ МАТЕРИАЛИ И ИЗДЕЛИЯ И ДРУГИ ПРОМИШЛЕНИ СТОКИ И СТОКИ ЗА БИТА; ПРОЕКТИРАНЕ, ДИЗАЙН И ОБЗАВЕЖДАНЕ НА ЖИЛИЩНИ И АДМИНИСТРАТИВНИ ОБЕКТИ; СТРОИТЕЛНИ, МОНТАЖНИ И РЕМОНТНИ ДЕЙНОСТИ И УСЛУГИ; ХОТЕЛИЕРСТВО И РЕСТОРАНТЬОРСТВО; ПРОУЧВАТЕЛНА, ИНФОРМАЦИОННА И КОНСУЛТАНТСКА ДЕЙНОСТ; МАРКЕТИНГ, ТЪРГОВСКО ПОСРЕДНИЧЕСТВО И ПРЕДСТАВИТЕЛСТВО НА БЪЛГАРСКИ И ЧУЖДЕСТРАННИ ФИЗИЧЕСКИ И ЮРИДИЧЕСКИ ЛИЦА В СТРАНАТА И В ЧУЖБИНА; ВСЯКА ДРУГА ТЪРГОВСКА ДЕЙНОСТ, НЕЗАБРАНЕНА ОТ ЗАКОНА.</SubjectOfActivity>
+<Managers xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00070" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" FieldOperation="Add">
+<Manager RecordIncomingNumber="20080522114153" RecordID="1991236" GroupID="376781">
+<Person IsForeignTraderText="0">
+<Name>МИЛЕНА ЛЮБЕНОВА ЦОЛОВСКА</Name>
+<IndentType>EGN</IndentType>
+<Indent>5DE5D814FD923477DB4D71D5C0B43AEB475DF20DA1248A0C835592B37FC9233C</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Person>
+</Manager>
+</Managers>
+<SoleCapitalOwner xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00230" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" RecordIncomingNumber="20080522114153" RecordID="1991242" FieldOperation="Add" GroupID="376781">
+<Subject IsForeignTraderText="0">
+<Name>МИЛЕНА ЛЮБЕНОВА ЦОЛОВСКА</Name>
+<IndentType>EGN</IndentType>
+<Indent>5DE5D814FD923477DB4D71D5C0B43AEB475DF20DA1248A0C835592B37FC9233C</Indent>
+<CountryID xsi:nil="true"></CountryID>
+<CountryName></CountryName>
+</Subject>
+</SoleCapitalOwner>
+<Funds xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00310" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" RecordIncomingNumber="20080522114153" RecordID="1991260" FieldOperation="Add" GroupID="376781">6000</Funds>
+<DepositedFunds xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="00320" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" RecordIncomingNumber="20080522114153" RecordID="1991261" FieldOperation="Add" GroupID="376781">6000</DepositedFunds>
+</SubDeed>
+<SubDeed SubUICType="G1_ActAnnouncement" SubUIC="0012">
+<StatementsA xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="10019A" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" FieldOperation="Add">
+<StatementA ActModeValue="1" Description="Актуален учредителен акт" ActModeText="Актуален учредителен акт" ActDate="" RecordIncomingNumber="20080522114153" RecordID="1991296" ActYear="" GroupID="376781" ActID="3bca6e42887c40dd897ba4f36470e3cf"></StatementA>
+</StatementsA>
+<StatementsAJ xmlns="http://www.registryagency.bg/schemas/deedv2/Fields" FieldIdent="1001AJ" FieldActionDate="2008-07-03T07:32:46" FieldEntryNumber="20080703073246" FieldOperation="Add">
+<StatementAJ ActModeValue="36" Description="Актуален учредителен акт" ActModeText="Актуален дружествен договор/учредителен акт/устав" ActDate="" RecordIncomingNumber="20080522114153" RecordID="6657519" ActYear="" GroupID="376781" ActID="3bca6e42887c40dd897ba4f36470e3cf"></StatementAJ>
+</StatementsAJ>
+</SubDeed>
+</Deed>
+</Deeds>
+</Body>
+</Message>
