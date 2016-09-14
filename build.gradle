@@ -30,6 +30,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	compile('org.seleniumhq.selenium:selenium-java:2.53.1')
 //	compile('org.springframework.boot:spring-boot-starter-web')
 //	compile('org.springframework.security.oauth:spring-security-oauth2')
 //	compile('org.springframework.boot:spring-boot-starter-security')
@@ -37,6 +38,7 @@ dependencies {
 	runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+	testCompile('org.testng:testng:6.9.10')
 }
 
 
