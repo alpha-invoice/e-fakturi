@@ -44,6 +44,8 @@ public class BrraParser {
 
     private static final String OUTPUT_FILE_NAME = "companies.txt";
 
+    private long logTimer;
+
     private URI registryLocation;
 
     // we identify each {@link BrraCompany} by its EIK (UIC)
@@ -55,12 +57,22 @@ public class BrraParser {
      * Constructor for the BrraParser. Initiliazes the location of the BRRA
      * registry where the XML files we need to parse are located.
      *
-     * @param registryLocation the URI of the directory where the Brra registry
-     *            is located.
+     * @param registryLocation
+     *            the URI of the directory where the Brra registry is located.
      */
     public BrraParser(URI registryLocation) {
         this.registryLocation = registryLocation;
         this.companies = new HashMap<>();
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                try {
+                    createLogFile();
+                } catch (IOException e) {
+                    System.err.println("Logging into file was interrupter with exception.");
+                    e.printStackTrace();
+                }
+            };
+        });
     }
 
     /**
@@ -69,11 +81,11 @@ public class BrraParser {
      *
      * @return a map containing the most up-to-date company data for each
      *         {@link BrraCompany}
-     * @throws JAXBException when there is a problem with initializing JAXB or
-     *             an XML page from the registry location is corrupted
+     * @throws JAXBException
+     *             when there is a problem with initializing JAXB or an XML page
+     *             from the registry location is corrupted
      */
-    public Map<String, BrraCompany> parseAll() throws JAXBException, Exception {
-        long start = System.currentTimeMillis();
+    public Map<String, BrraCompany> parseAll() throws JAXBException {
 
         initializeBrraJaxbContext();
 
@@ -83,11 +95,6 @@ public class BrraParser {
                 updateCompanies(parsedBrraCompanies);
             }
         }
-
-        createLogFile();
-
-        long end = System.currentTimeMillis();
-        System.out.println("Time taken: " + (end - start) / 1000.0);
 
         return companies;
     }
@@ -108,8 +115,9 @@ public class BrraParser {
      * Adds the parsedBrraCompanies list to the companies hashmap. Old company
      * entries are updated, whereas new ones are added to the hashmap.
      *
-     * @param parsedBrraCompanies list of parsed brra companies which should be
-     *            added/updated in the companies hashmap
+     * @param parsedBrraCompanies
+     *            list of parsed brra companies which should be added/updated in
+     *            the companies hashmap
      */
     private void updateCompanies(List<BrraCompany> parsedBrraCompanies) {
 
@@ -131,8 +139,9 @@ public class BrraParser {
      * are also included in the resulting list of files. The directory traversal
      * is done recursively.
      *
-     * @param directory URI of the directory which will be scanned for all
-     *            contained files and subdirectories
+     * @param directory
+     *            URI of the directory which will be scanned for all contained
+     *            files and subdirectories
      * @return {@link List} of all the files contained in the specified
      *         directory
      */
@@ -162,19 +171,15 @@ public class BrraParser {
      * Parse a single Brra XML page and return a list of parsed companies from
      * it
      *
-     * @param page the page to be parsed
+     * @param page
+     *            the page to be parsed
      * @return list of parsed companies from the specified Brra page
      * @throws JAXBException
      */
     private List<BrraCompany> parseBrraXMLPage(File page) throws JAXBException {
 
-        long start = System.currentTimeMillis();
-
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         MessageType messageType = unmarshaller.unmarshal(new StreamSource(page), MessageType.class).getValue();
-
-        long end = System.currentTimeMillis();
-        System.out.println("Parsing " + page.getName() + " takes: " + (end - start) / 1000.0);
 
         List<BrraCompany> companiesFromFile = new ArrayList<>();
 
@@ -183,7 +188,6 @@ public class BrraParser {
             System.err.println("Could not parse file " + page.getName());
             return companiesFromFile;
         }
-
         Iterator<DeedType> deedIterator = messageType.getBody().getDeeds().getDeed().iterator();
         while (deedIterator.hasNext()) {
             try {
@@ -196,9 +200,10 @@ public class BrraParser {
             }
         }
 
-        // To avoid memory leak.
-        messageType = null;
-        System.gc();
+        if (System.currentTimeMillis() - logTimer > 5000) {
+            System.out.println("Currently prossessing file : " + page.getName());
+            logTimer = System.currentTimeMillis();
+        }
 
         return companiesFromFile;
     }
@@ -207,7 +212,8 @@ public class BrraParser {
      * Generate a date from the file name of a single Brra XML page. Example
      * Brra file name: 20080703.xml. Date from file name: 03 July 2008
      *
-     * @param fileName the Brra XML file from which a date will be extracted
+     * @param fileName
+     *            the Brra XML file from which a date will be extracted
      * @return {@link Date} object containing year, month and day
      * @throws ParseException
      */

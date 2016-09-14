@@ -38,11 +38,11 @@ public class BrraCompany {
         BrraCompany company = new BrraCompany();
         DeedTypeParser deedTypeParser = new DeedTypeParser(dt);
 
-        company.eik = deedTypeParser.getEik();
-        company.name = deedTypeParser.getName();
-        company.dateLastModified = date;
-        company.mol = deedTypeParser.getMol();
-        company.address = deedTypeParser.getAddress();
+        company.setEik(deedTypeParser.getEik());
+        company.setName(deedTypeParser.getName());
+        company.setDateLastModified(date);
+        company.setMol(deedTypeParser.getMol());
+        company.setAddress(deedTypeParser.getAddress());
 
         return company;
     }

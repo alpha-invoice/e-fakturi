@@ -17,7 +17,7 @@ public class BrraApplication implements CommandLineRunner {
     BrraCompanyRepository brraCompanyRepository;
 
     public static void main(String[] args) throws JAXBException, Exception {
-        BrraParser bp = new BrraParser(new URI("file:///C:/Users/borisrosenov/Downloads/brra.bg"));
+        BrraParser bp = new BrraParser(new URI("file:///C:/Users/dimitarpahnev/Downloads/brra.bg"));
         System.out.println(bp.parseAll().size());
         // SpringApplication.run(BrraApplication.class, args);
     }
