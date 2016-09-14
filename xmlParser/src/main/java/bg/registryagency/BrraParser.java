@@ -26,6 +26,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
+import bg.registryagency.exception.InvalidDeedException;
 import bg.registryagency.model.BrraCompany;
 import bg.registryagency.schemas.deedv2.DeedType;
 import bg.registryagency.schemas.envelopev2.MessageType;
@@ -46,7 +47,7 @@ public class BrraParser {
     private URI registryLocation;
 
     // we identify each {@link BrraCompany} by its EIK (UIC)
-    private Map<Long, BrraCompany> companies;
+    private Map<String, BrraCompany> companies;
 
     private JAXBContext jaxbContext;
 
@@ -71,7 +72,7 @@ public class BrraParser {
      * @throws JAXBException when there is a problem with initializing JAXB or
      *             an XML page from the registry location is corrupted
      */
-    public Map<Long, BrraCompany> parseAll() throws JAXBException {
+    public Map<String, BrraCompany> parseAll() throws JAXBException, Exception {
         long start = System.currentTimeMillis();
 
         initializeBrraJaxbContext();
@@ -83,7 +84,7 @@ public class BrraParser {
             }
         }
 
-        // createLogFile();
+        createLogFile();
 
         long end = System.currentTimeMillis();
         System.out.println("Time taken: " + (end - start) / 1000.0);
@@ -111,6 +112,7 @@ public class BrraParser {
      *            added/updated in the companies hashmap
      */
     private void updateCompanies(List<BrraCompany> parsedBrraCompanies) {
+
         for (BrraCompany currentCompany : parsedBrraCompanies) {
             if (companies.containsKey(currentCompany.getEik())) {
                 BrraCompany previousEntry = companies.get(currentCompany.getEik());
@@ -136,8 +138,14 @@ public class BrraParser {
      */
     private List<File> getFilesFromDirectory(URI directory) {
         File workingDirectory = new File(directory);
+
+        if (workingDirectory.isFile()) {
+            return Arrays.asList(workingDirectory);
+        }
+
         File[] listOfFiles = workingDirectory.listFiles();
         List<File> results = Arrays.asList(listOfFiles);
+
         for (File file : listOfFiles) {
             if (file.isDirectory()) {
                 results = Stream.concat(results.stream(), getFilesFromDirectory(file.toURI()).stream())
@@ -178,8 +186,14 @@ public class BrraParser {
 
         Iterator<DeedType> deedIterator = messageType.getBody().getDeeds().getDeed().iterator();
         while (deedIterator.hasNext()) {
-            companiesFromFile.add(BrraCompany.createInstance(deedIterator.next(), fileDate));
-            deedIterator.remove();
+            try {
+                BrraCompany toAdd = BrraCompany.createInstance(deedIterator.next(), fileDate);
+                companiesFromFile.add(toAdd);
+            } catch (InvalidDeedException e) {
+                System.err.println(e.getMessage());
+            } finally {
+                deedIterator.remove();
+            }
         }
 
         // To avoid memory leak.

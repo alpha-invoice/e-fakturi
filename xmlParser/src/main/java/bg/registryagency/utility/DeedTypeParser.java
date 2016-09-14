@@ -1,9 +1,14 @@
 package bg.registryagency.utility;
 
+import java.util.regex.Pattern;
+
+import bg.registryagency.exception.InvalidDeedException;
 import bg.registryagency.schemas.deedv2.DeedType;
 import bg.registryagency.schemas.deedv2.fields.AddressType;
 
 public class DeedTypeParser {
+
+    private static Pattern eikRegex = Pattern.compile("[0-9]{9}");
 
     private DeedType deedType;
 
@@ -11,8 +16,11 @@ public class DeedTypeParser {
         this.deedType = deedType;
     }
 
-    public Long getEik() {
-        return Long.parseLong(deedType.getUIC());
+    public String getEik() throws InvalidDeedException {
+        if (!eikRegex.matcher(deedType.getUIC()).matches()) {
+            throw new InvalidDeedException("Invalid EIK for Deed.");
+        }
+        return deedType.getUIC();
     }
 
     public String getName() {
@@ -21,7 +29,11 @@ public class DeedTypeParser {
 
     public String getMol() {
         try {
-            return deedType.getSubDeed().get(0).getManagers().get(0).getManager().get(0).getPerson().getName();
+            if (deedType.getLegalForm().equals("ET")) {
+                return deedType.getSubDeed().get(0).getPhysicalPersonTrader().get(0).getPerson().getName();
+            } else {
+                return deedType.getSubDeed().get(0).getManagers().get(0).getManager().get(0).getPerson().getName();
+            }
         } catch (IndexOutOfBoundsException e) {
             return null;
         }

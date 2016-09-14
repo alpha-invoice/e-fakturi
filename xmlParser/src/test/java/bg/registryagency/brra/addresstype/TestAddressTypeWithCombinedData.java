@@ -1,5 +1,6 @@
 package bg.registryagency.brra.addresstype;
 
+import java.net.URI;
 import java.util.Map;
 
 import org.testng.Assert;
@@ -14,12 +15,12 @@ public class TestAddressTypeWithCombinedData {
 
     private static final String FILES_FOR_TEST_LOCATION = "file:///C:/Users/dimitarpahnev/workspace/Invoices/invoices-brra/invoices-remastered/xmlParser/src/main/resources/static/testxml";
 
-    private Map<Long, BrraCompany> parsedCompanies;
+    private Map<String, BrraCompany> parsedCompanies;
 
     @BeforeClass()
     private void setUp() {
-        BrraParser source = new BrraParser(FILES_FOR_TEST_LOCATION);
         try {
+            BrraParser source = new BrraParser(new URI(FILES_FOR_TEST_LOCATION));
             parsedCompanies = source.parseAll();
         } catch (Exception e) {
             e.printStackTrace();

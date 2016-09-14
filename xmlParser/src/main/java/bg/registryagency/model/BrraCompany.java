@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import bg.registryagency.exception.InvalidDeedException;
 import bg.registryagency.schemas.deedv2.DeedType;
 import bg.registryagency.utility.DeedTypeParser;
 
@@ -19,7 +20,7 @@ public class BrraCompany {
     private Long id;
 
     @Column(unique = true)
-    private Long eik;
+    private String eik;
 
     private String name;
 
@@ -33,7 +34,7 @@ public class BrraCompany {
 
     }
 
-    public static BrraCompany createInstance(DeedType dt, Date date) {
+    public static BrraCompany createInstance(DeedType dt, Date date) throws InvalidDeedException {
         BrraCompany company = new BrraCompany();
         DeedTypeParser deedTypeParser = new DeedTypeParser(dt);
 
@@ -74,11 +75,11 @@ public class BrraCompany {
         this.id = id;
     }
 
-    public Long getEik() {
+    public String getEik() {
         return eik;
     }
 
-    public void setEik(Long eik) {
+    public void setEik(String eik) {
         this.eik = eik;
     }
 
@@ -117,7 +118,7 @@ public class BrraCompany {
     @Override
     public String toString() {
         return "BrraCompany [id=" + id + ", eik=" + eik + ", name=" + name + ", mol=" + mol + ", address=" + address
-                + "]";
+                + "dateModified: " + dateLastModified + "]";
     }
 
     /*
