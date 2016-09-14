@@ -59,11 +59,11 @@
 <AreaID xsi:nil="true"></AreaID>
 <Area></Area>
 <AreaEkatte></AreaEkatte>
-<PostCode>7015</PostCode>
+<PostCode></PostCode>
 <ForeignPlace></ForeignPlace>
 <HousingEstate></HousingEstate>
 <Street>ул.ДАМЕ ГРУЕВ НОВ</Street>
-<StreetNumber>553</StreetNumber>
+<StreetNumber></StreetNumber>
 <Block></Block>
 <Entrance>8</Entrance>
 <Floor>8</Floor>

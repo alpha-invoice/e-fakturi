@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import bg.registryagency.schemas.deedv2.DeedType;
-import utility.DeedTypeParser;
+import bg.registryagency.utility.DeedTypeParser;
 
 @Entity
 public class BrraCompany {
@@ -46,7 +46,7 @@ public class BrraCompany {
         return company;
     }
 
-    public BrraCompany updateCompanyEntry(BrraCompany newCompanyData) {
+    public BrraCompany updateCompanyData(BrraCompany newCompanyData) {
         String address = newCompanyData.getAddress();
         if (address != null && !address.trim().isEmpty()) {
             this.address = address;
@@ -122,7 +122,7 @@ public class BrraCompany {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -139,7 +139,7 @@ public class BrraCompany {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

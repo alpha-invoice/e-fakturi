@@ -1,9 +1,5 @@
-package utility;
+package bg.registryagency.utility;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-import bg.registryagency.LegalFormsConverter;
 import bg.registryagency.schemas.deedv2.DeedType;
 import bg.registryagency.schemas.deedv2.fields.AddressType;
 
@@ -38,28 +34,9 @@ public class DeedTypeParser {
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
-        Queue<String> addressFields = new LinkedList<>();
 
-        addressFields.add(addressType.getStreet());
-        addressFields.add(addressType.getStreetNumber());
-        addressFields.add(addressType.getSettlement());
-        addressFields.add(addressType.getCountry());
-        addressFields.add(addressType.getPostCode());
-
-        StringBuilder sb = new StringBuilder();
-        String property = null;
-       
-        while (!addressFields.isEmpty()) {
-            property = addressFields.poll();
-            if (property != null && !property.trim().isEmpty()) {
-                sb.append(property);
-                if (addressFields.size() != 0) {
-                    sb.append(", ");
-                }
-            }
-        }
-
-        return sb.toString();
+        AddressTypeParser addressTypeParser = new AddressTypeParser(addressType);
+        return addressTypeParser.getFullAddress();
     }
 
 }

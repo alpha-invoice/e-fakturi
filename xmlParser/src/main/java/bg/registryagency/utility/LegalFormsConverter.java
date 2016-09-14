@@ -1,4 +1,4 @@
-package bg.registryagency;
+package bg.registryagency.utility;
 
 import java.util.HashMap;
 import java.util.Map;

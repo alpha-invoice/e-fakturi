@@ -27,48 +27,40 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import bg.registryagency.model.BrraCompany;
 import bg.registryagency.schemas.deedv2.DeedType;
 import bg.registryagency.schemas.envelopev2.MessageType;
 
-@SpringBootApplication
-public class ParserApplication {
+public class BrraParser {
 
     private static final String OUTPUT_FILE_NAME = "companies.txt";
 
-    public static final String BRRA_LOCATION = "file:///C:/Users/dimitarpahnev/Downloads/brra.bg/2008";
+    public static final String BRRA_LOCATION = "file:///C:/Users/borisrosenov/Downloads/brra.bg/2008";
 
-    private String fileLocation;
+    private String registryLocation;
     private Map<Long, BrraCompany> companies;
     private JAXBContext jaxbContext;
 
-    public ParserApplication(String fileLocation) {
+    public BrraParser(String registryLocation) {
 
-        this.fileLocation = fileLocation;
+        this.registryLocation = registryLocation;
         companies = new HashMap<>();
 
         try {
             this.jaxbContext = JAXBContext.newInstance("bg.registryagency.schemas.envelopev2");
         } catch (JAXBException e) {
-            e.printStackTrace();
+            System.err.println("Could not load registry xml schema.");
         }
 
     }
 
-    public static void main(String[] args) throws Exception {
-        new ParserApplication(BRRA_LOCATION).start();
-    }
-
-    public void start() throws Exception {
+    public Map<Long, BrraCompany> parseAll() throws Exception {
         long start = System.currentTimeMillis();
 
-        for (File file : getFilesFromDirectory(new URI(fileLocation))) {
+        for (File file : getFilesFromDirectory(new URI(registryLocation))) {
             if (file.isFile()) {
-
                 List<BrraCompany> parsedBrraCompanies = parseBrraXMLPage(file);
-                addParsedCompanyToCollection(parsedBrraCompanies);
+                updateCompanies(parsedBrraCompanies);
             }
         }
 
@@ -77,36 +69,22 @@ public class ParserApplication {
         long end = System.currentTimeMillis();
         System.out.println("Time taken: " + (end - start) / 1000.0);
 
-        // SpringApplication.run(ParserApplication.class, args);
+        return companies;
     }
 
     /**
-     * @throws FileNotFoundException
-     * @throws IOException
+     * Adds the parsedBrraCompanies list to the companies hashmap. Old company
+     * entries are updated, whereas new ones are added to the hashmap.
+     *
+     * @param parsedBrraCompanies list of parsed brra companies which should be
+     *            added/updated in the companies hashmap
      */
-    private void createLogFile() throws FileNotFoundException, IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(new File(OUTPUT_FILE_NAME));
-        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
-
-        for (BrraCompany currentCompany : companies.values()) {
-            System.out.println(currentCompany.toString());
-            bufferedWriter.write(currentCompany.toString());
-            bufferedWriter.newLine();
-        }
-        bufferedWriter.close();
-        fileOutputStream.close();
-
-        System.out.println("hashmap size : " + companies.size());
-    }
-
-    /**
-     */
-    private void addParsedCompanyToCollection(List<BrraCompany> parsedBrraCompanies) {
+    private void updateCompanies(List<BrraCompany> parsedBrraCompanies) {
         for (BrraCompany currentCompany : parsedBrraCompanies) {
             if (companies.containsKey(currentCompany.getEik())) {
-                BrraCompany previousRegistry = companies.get(currentCompany.getEik());
-                if (previousRegistry.getDateLastModified().before(currentCompany.getDateLastModified())) {
-                    previousRegistry.updateCompanyEntry(currentCompany);
+                BrraCompany previousEntry = companies.get(currentCompany.getEik());
+                if (previousEntry.getDateLastModified().before(currentCompany.getDateLastModified())) {
+                    previousEntry.updateCompanyData(currentCompany);
                 }
             } else {
                 companies.put(currentCompany.getEik(), currentCompany);
@@ -120,9 +98,8 @@ public class ParserApplication {
      * are also included in the resulting list of files. The directory traversal
      * is done recursively.
      *
-     * @param directory
-     *            the directory which will be scanned for all contained files
-     *            and subdirectories
+     * @param directory URI of the directory which will be scanned for all
+     *            contained files and subdirectories
      * @return {@link List} of all the files contained in the specified
      *         directory
      */
@@ -140,27 +117,27 @@ public class ParserApplication {
         return results;
     }
 
-    public List<BrraCompany> parseBrraXMLPage(File file) throws Exception {
+    public List<BrraCompany> parseBrraXMLPage(File page) throws Exception {
 
         long start = System.currentTimeMillis();
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        MessageType messageType = unmarshaller.unmarshal(new StreamSource(file), MessageType.class).getValue();
+        MessageType messageType = unmarshaller.unmarshal(new StreamSource(page), MessageType.class).getValue();
 
-        Date fileDate = generateDateFromFileName(file);
+        Date fileDate = generateDateFromFileName(page);
 
         long end = System.currentTimeMillis();
-        System.out.println("Parsing " + file.getName() + " takes: " + (end - start) / 1000.0);
+        System.out.println("Parsing " + page.getName() + " takes: " + (end - start) / 1000.0);
 
         List<BrraCompany> companiesFromFile = new ArrayList<>();
 
-        // To avoid memory leak.
-        Iterator<DeedType> it = messageType.getBody().getDeeds().getDeed().iterator();
-        while (it.hasNext()) {
-            companiesFromFile.add(BrraCompany.createInstance(it.next(), fileDate));
-            it.remove();
+        Iterator<DeedType> deedIterator = messageType.getBody().getDeeds().getDeed().iterator();
+        while (deedIterator.hasNext()) {
+            companiesFromFile.add(BrraCompany.createInstance(deedIterator.next(), fileDate));
+            deedIterator.remove();
         }
 
+        // To avoid memory leak.
         messageType = null;
         System.gc();
 
@@ -175,6 +152,27 @@ public class ParserApplication {
     private Date generateDateFromFileName(File file) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyymmdd", Locale.ENGLISH);
         return dateFormat.parse(file.getName());
+    }
+
+    /**
+     * TODO: Will be deleted in release
+     *
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    private void createLogFile() throws FileNotFoundException, IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream(new File(OUTPUT_FILE_NAME));
+        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+
+        for (BrraCompany currentCompany : companies.values()) {
+            System.out.println(currentCompany.toString());
+            bufferedWriter.write(currentCompany.toString());
+            bufferedWriter.newLine();
+        }
+        bufferedWriter.close();
+        fileOutputStream.close();
+
+        System.out.println("hashmap size : " + companies.size());
     }
 
     public Map<Long, BrraCompany> getParsedCompanies() {
