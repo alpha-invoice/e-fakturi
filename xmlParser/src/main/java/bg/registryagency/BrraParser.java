@@ -229,11 +229,11 @@ public class BrraParser {
      * @throws IOException
      */
     private void createLogFile() throws FileNotFoundException, IOException {
+
         FileOutputStream fileOutputStream = new FileOutputStream(new File(OUTPUT_FILE_NAME));
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
 
         for (BrraCompany currentCompany : companies.values()) {
-            System.out.println(currentCompany.toString());
             bufferedWriter.write(currentCompany.toString());
             bufferedWriter.newLine();
         }

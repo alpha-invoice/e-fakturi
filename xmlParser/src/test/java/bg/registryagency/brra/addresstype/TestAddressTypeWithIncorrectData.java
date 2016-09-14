@@ -13,13 +13,15 @@ import bg.registryagency.model.BrraCompany;
 
 public class TestAddressTypeWithIncorrectData {
 
-    private static final String FILE_FOR_2010_LOCATION = "file:///C:/Users/dimitarpahnev/workspace/Invoices/invoices-brra/invoices-remastered/xmlParser/src/main/resources/static/testxml/2010";
+    private static final String FILE_PATH = "static/testxml/2010/6/20100605.xml";
+
     private Map<String, BrraCompany> parsedCompanies;
 
     @BeforeClass()
     private void setUp() {
         try {
-            BrraParser source = new BrraParser(new URI(FILE_FOR_2010_LOCATION));
+            URI filePath = getClass().getClassLoader().getResource(FILE_PATH).toURI();
+            BrraParser source = new BrraParser(filePath);
             parsedCompanies = source.parseAll();
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,16 +32,16 @@ public class TestAddressTypeWithIncorrectData {
     @DataProvider(name = "address output for 20100605")
     public Object[][] addressOutputForIncorrectXML() {
         return new Object[][] {
-                { 117683847L, "ул.ДАМЕ ГРУЕВ НОВ, гр. Русе, БЪЛГАРИЯ" },
-                { 117694911L, null },
-                { 104645992L, "ул.ШЕЙНОВО 28, гр. Горна Оряховица, БЪЛГАРИЯ, 5100" },
-                { 104103644L, null },
-                { 200233939L, "ж.к. СВЕТА ТРОИЦА, бл. 303Б, гр. София, БЪЛГАРИЯ, 1309" }
+                { "117683847", "ул.ДАМЕ ГРУЕВ НОВ, гр. Русе, БЪЛГАРИЯ" },
+                { "117694911", null },
+                { "104645992", "ул.ШЕЙНОВО 28, гр. Горна Оряховица, БЪЛГАРИЯ, 5100" },
+                { "104103644", null },
+                { "200233939", "ж.к. СВЕТА ТРОИЦА, бл. 303Б, гр. София, БЪЛГАРИЯ, 1309" }
         };
     }
 
     @Test(dataProvider = "address output for 20100605")
-    public void testSecondXMLAddresses(Long id, String address) {
+    public void testSecondXMLAddresses(String id, String address) {
         Assert.assertEquals(parsedCompanies.get(id).getAddress(), address);
     }
 }
