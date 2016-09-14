@@ -33,7 +33,7 @@ public class AddressTypeParser {
     public String getHousingEstate() {
         StringBuilder sb = new StringBuilder();
         if (isValidTagString(addressType.getHousingEstate())) {
-            sb.append("ж.к ").append(addressType.getHousingEstate());
+            sb.append("ж.к. ").append(addressType.getHousingEstate());
         }
 
         return sb.toString();
