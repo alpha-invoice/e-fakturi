@@ -5,7 +5,7 @@ build/
 .project
 .classpath
 .settings/
-xmlParser/bin
+xmlParser/bin/
 xmlParser/test-output
-xmlParser/build
+xmlParser/build/
 xmlParser/companies.txt

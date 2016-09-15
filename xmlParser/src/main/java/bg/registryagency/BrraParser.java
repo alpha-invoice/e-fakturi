@@ -64,6 +64,7 @@ public class BrraParser {
         this.registryLocation = registryLocation;
         this.companies = new HashMap<>();
         Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
             public void run() {
                 try {
                     createLogFile();
@@ -219,7 +220,7 @@ public class BrraParser {
      */
     private Date generateDateFromBrraFileName(String fileName) {
         try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyymmdd", Locale.ENGLISH);
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
             return dateFormat.parse(fileName);
         } catch (ParseException e) {
             System.err.println("Could not extract date from " + fileName);

@@ -17,11 +17,11 @@ public class LegalFormsConverter {
         map.put("EAD", "ЕАД");
         map.put("KD", "КД");
         map.put("KDA", "КДА");
+        map.put("IAD", "АДСИЦ");
         bulgarianLegalForms = map;
     }
 
     public static String getLegalFormInBulgarian(String legalForm) {
-
         if (bulgarianLegalForms.containsKey(legalForm)) {
             return bulgarianLegalForms.get(legalForm);
         }
