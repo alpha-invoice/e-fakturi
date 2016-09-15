@@ -7,16 +7,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -125,7 +125,7 @@ public class BrraParser {
         for (BrraCompany currentCompany : parsedBrraCompanies) {
             if (companies.containsKey(currentCompany.getEik())) {
                 BrraCompany previousEntry = companies.get(currentCompany.getEik());
-                if (previousEntry.getDateLastModified().before(currentCompany.getDateLastModified())) {
+                if (previousEntry.getDateLastModified().isBefore(currentCompany.getDateLastModified())) {
                     previousEntry.updateCompanyData(currentCompany);
                 }
             } else {
@@ -184,7 +184,7 @@ public class BrraParser {
 
         List<BrraCompany> companiesFromFile = new ArrayList<>();
 
-        Date fileDate = generateDateFromBrraFileName(page.getName());
+        LocalDate fileDate = generateDateFromBrraFileName(page.getName());
         if (fileDate == null) {
             System.err.println("Could not parse file " + page.getName());
             return companiesFromFile;
@@ -218,11 +218,12 @@ public class BrraParser {
      * @return {@link Date} object containing year, month and day
      * @throws ParseException
      */
-    private Date generateDateFromBrraFileName(String fileName) {
+    private LocalDate generateDateFromBrraFileName(String fileName) {
         try {
-            DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
-            return dateFormat.parse(fileName);
-        } catch (ParseException e) {
+            String fileNameWithoutExtension = fileName.substring(0, fileName.indexOf('.'));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            return LocalDate.parse(fileNameWithoutExtension, formatter);
+        } catch (DateTimeParseException e) {
             System.err.println("Could not extract date from " + fileName);
         }
 
