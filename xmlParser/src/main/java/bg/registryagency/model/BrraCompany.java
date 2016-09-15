@@ -1,6 +1,6 @@
 package bg.registryagency.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ import bg.registryagency.schemas.deedv2.DeedType;
 import bg.registryagency.utility.DeedTypeParser;
 
 @Entity
-@Table(name = "brra_company")
+@Table(name = "brra_companies")
 public class BrraCompany {
 
     @Id
@@ -32,13 +32,13 @@ public class BrraCompany {
     private String address;
 
     @Transient
-    private Date dateLastModified;
+    private LocalDate dateLastModified;
 
     public BrraCompany() {
 
     }
 
-    public static BrraCompany createInstance(DeedType dt, Date date) throws InvalidDeedException {
+    public static BrraCompany createInstance(DeedType dt, LocalDate date) throws InvalidDeedException {
         BrraCompany company = new BrraCompany();
         DeedTypeParser deedTypeParser = new DeedTypeParser(dt);
 
@@ -64,7 +64,7 @@ public class BrraCompany {
         if (mol != null && !mol.trim().isEmpty()) {
             this.mol = mol;
         }
-        Date dateLastModified = newCompanyData.getDateLastModified();
+        LocalDate dateLastModified = newCompanyData.getDateLastModified();
         if (dateLastModified != null) {
             this.dateLastModified = dateLastModified;
         }
@@ -111,11 +111,11 @@ public class BrraCompany {
         this.address = address;
     }
 
-    public Date getDateLastModified() {
+    public LocalDate getDateLastModified() {
         return dateLastModified;
     }
 
-    public void setDateLastModified(Date dateLastModified) {
+    public void setDateLastModified(LocalDate dateLastModified) {
         this.dateLastModified = dateLastModified;
     }
 
