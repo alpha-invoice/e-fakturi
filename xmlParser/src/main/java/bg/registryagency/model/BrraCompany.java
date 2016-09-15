@@ -7,12 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import bg.registryagency.exception.InvalidDeedException;
 import bg.registryagency.schemas.deedv2.DeedType;
 import bg.registryagency.utility.DeedTypeParser;
 
 @Entity
+@Table(name = "brra_company")
 public class BrraCompany {
 
     @Id
@@ -28,6 +31,7 @@ public class BrraCompany {
 
     private String address;
 
+    @Transient
     private Date dateLastModified;
 
     public BrraCompany() {
