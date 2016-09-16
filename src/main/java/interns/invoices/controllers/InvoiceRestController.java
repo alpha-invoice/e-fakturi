@@ -1,11 +1,17 @@
 package interns.invoices.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import interns.invoices.exceptions.InvalidInvoiceException;
 import interns.invoices.models.Company;
 import interns.invoices.models.Invoice;
-import interns.invoices.models.Item;
 import interns.invoices.repositories.CompanyRepository;
 import interns.invoices.repositories.InvoiceRepository;
 import services.CreatePDFService;
@@ -28,6 +33,7 @@ import services.CreatePDFService;
  */
 @RestController
 public class InvoiceRestController {
+    private static final String CONTENT_DISPOSITION_TYPE_INLINE_STRING = "inline;filname=";
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
@@ -73,8 +79,10 @@ public class InvoiceRestController {
      *             {@link javax.validation.ConstraintViolationException} when
      *             validating the input json request body.
      */
-    @RequestMapping(value = "/invoices", method = RequestMethod.PATCH)
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/invoices", method = RequestMethod.POST)
     void saveInvoice(@RequestBody Invoice invoice) throws InvalidInvoiceException {
+        System.out.println(invoice);
         try {
             updateCompany(invoice.getSender());
             updateCompany(invoice.getRecipient());
@@ -84,37 +92,36 @@ public class InvoiceRestController {
         }
     }
 
-    @RequestMapping(value = "/printInvoice", method = RequestMethod.GET)
-    void printInvoice() throws InvalidInvoiceException {
-
-        Invoice invoice = new Invoice();
-        invoice.setInvoiceNumber("123645445");
-        invoice.setItems(new ArrayList<Item>());
-        Item item = new Item();
-        item.setDescription("Чушки и домати");
-        item.setPriceWithoutVAT(5.65);
-        item.setQuantity(2);
-        invoice.getItems().add(item);
-        Company sender = new Company();
-        sender.setAddress("Овча купел 18");
-        sender.setEik("123654789");
-        sender.setMol("Бай Иван");
-        sender.setName("Бай Иван индъстрийс ЕООД");
-        Company recipient = new Company();
-        recipient.setAddress("Дружба 2");
-        recipient.setEik("883654789");
-        recipient.setMol("Леля Дочка");
-        recipient.setName("Л.Дочка инкорпорейтед ЕООД");
-        invoice.setSender(sender);
-        invoice.setRecipient(recipient);
-
+    /**
+     * Creates and invoice in pdf format and returns it to the user for preview.
+     *
+     * @param invoice
+     *            The {@link Invoice} object containing the data which is to be
+     *            printed on the pdf.
+     * @return Response entity containing the status code and, if creation is
+     *         successful, the invoice pdf file.
+     * @throws InvalidInvoiceException
+     *             Occurs when the entered data is in an invalid format.
+     */
+    @CrossOrigin()
+    @RequestMapping(value = "/create/invoice", method = RequestMethod.POST)
+    public ResponseEntity<InputStreamResource> createInvoice(@RequestBody Invoice invoice)
+            throws InvalidInvoiceException {
+        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
-            CreatePDFService.createInvoicePDF(invoice);
+            response = ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            CONTENT_DISPOSITION_TYPE_INLINE_STRING +
+                                    invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
+                    .body(new InputStreamResource(
+                            new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
         } catch (Exception e) {
+            // In case docx4j cannot load OpenXML schemas.
             e.printStackTrace();
         }
+        return response;
     }
 
     /**

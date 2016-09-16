@@ -14,5 +14,4 @@ public class PaysafeInternsInvoicesApplication {
     public static void main(String[] args) throws InvalidFormatException, IOException, DocumentException {
         SpringApplication.run(PaysafeInternsInvoicesApplication.class, args);
     }
-
 }
