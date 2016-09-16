@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import interns.invoices.models.User;
+import interns.invoices.models.UserInfo;
 import interns.invoices.repositories.UserRepository;
 
 /**
@@ -63,7 +63,8 @@ public class FileUploadController {
          * This is the default setting for now existing user with ID 9L. The
          * value of user should be set from the session service.
          */
-        User user = userRepository.findOne(9L);
+        String id = "";
+        UserInfo user = userRepository.findOne(id);
 
         try {
             user.setUserInvoiceTemplate(file.getBytes());

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * Bulgarian: Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð° {@link JsonIdentityInfo} annotation is used every
  * time Jackson serializes your object. It will add an ID to it, so that it
  * won't entirely "scan" the object again every time. We use it to prevent
- * infinite recursion while having chained relations between objects User ->
+ * infinite recursion while having chained relations between objects UserInfo ->
  * Company -> Invoice -> Company
  */
 @Entity

@@ -12,7 +12,7 @@ import java.util.Set;
  * Jackson serializes your object. It will add an ID to it,
  * so that it won't entirely "scan" the object again every time.
  * We use it to prevent infinite recursion while having chained
- * relations between objects User -> Company -> Invoice -> Company
+ * relations between objects UserInfo -> Company -> Invoice -> Company
  */
 @Entity(name = "companies")
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@companyId")
@@ -35,7 +35,7 @@ public class Company extends BaseEntity {
     /** Bulgarian: потребителя, записал фирмата*/
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private User owner;
+    private UserInfo owner;
 
     public Company() {
     }
@@ -101,11 +101,11 @@ public class Company extends BaseEntity {
         this.issuedInvoices = issuedInvoices;
     }
 
-    public User getOwner() {
+    public UserInfo getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(UserInfo owner) {
         this.owner = owner;
     }
 
