@@ -2,23 +2,29 @@ package interns.invoices.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "brra_company")
-@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@brracompanyId")
-public class BrraCompany extends BaseEntity {
+@Table(name = "brra_companies")
+public class BrraCompany {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column(unique = true)
     private String eik;
 
+    @Size(max = 511)
     private String name;
 
     private String mol;
 
+    @Size(max = 511)
     private String address;
 
     public BrraCompany() {

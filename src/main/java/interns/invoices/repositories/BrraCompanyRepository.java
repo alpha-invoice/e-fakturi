@@ -6,5 +6,5 @@ import interns.invoices.models.BrraCompany;
 
 public interface BrraCompanyRepository extends JpaRepository<BrraCompany, Long> {
 
-    BrraCompany findBrraCompanyByEik(String eik);
+    BrraCompany findByEik(String eik);
 }
