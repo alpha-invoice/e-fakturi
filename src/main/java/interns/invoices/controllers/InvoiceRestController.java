@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,7 +78,6 @@ public class InvoiceRestController {
      *             {@link javax.validation.ConstraintViolationException} when
      *             validating the input json request body.
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/invoices", method = RequestMethod.POST)
     void saveInvoice(@RequestBody Invoice invoice) throws InvalidInvoiceException {
         System.out.println(invoice);
@@ -103,7 +101,6 @@ public class InvoiceRestController {
      * @throws InvalidInvoiceException
      *             Occurs when the entered data is in an invalid format.
      */
-    @CrossOrigin()
     @RequestMapping(value = "/create/invoice", method = RequestMethod.POST)
     public ResponseEntity<InputStreamResource> createInvoice(@RequestBody Invoice invoice)
             throws InvalidInvoiceException {
