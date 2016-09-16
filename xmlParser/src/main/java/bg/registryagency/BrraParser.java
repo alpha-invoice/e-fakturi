@@ -32,11 +32,11 @@ import bg.registryagency.schemas.deedv2.DeedType;
 import bg.registryagency.schemas.envelopev2.MessageType;
 
 /**
- * BrraParser is class for parsing the open source version of the Brra registry.
- * The registry contains XML files which contain company data for many of the
- * registered Bulgarian companies. When given the location of the registry this
- * class can parse all the XML files inside and retrieve the most up-to-date
- * information about each company.
+ * BrraParser is a class for parsing the open source version of the Brra
+ * registry. The registry contains XML files which contain company data for many
+ * of the registered Bulgarian companies. When given the location of the
+ * registry this class can parse all the XML files inside and retrieve the most
+ * up-to-date information about each company.
  */
 public class BrraParser {
 
@@ -121,7 +121,6 @@ public class BrraParser {
      *            the companies hashmap
      */
     private void updateCompanies(List<BrraCompany> parsedBrraCompanies) {
-
         for (BrraCompany currentCompany : parsedBrraCompanies) {
             if (companies.containsKey(currentCompany.getEik())) {
                 BrraCompany previousEntry = companies.get(currentCompany.getEik());

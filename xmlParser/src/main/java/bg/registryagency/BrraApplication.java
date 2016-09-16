@@ -18,15 +18,13 @@ public class BrraApplication {
     public static void main(String[] args) {
         BrraParser bp = null;
         try {
-            bp = new BrraParser(new URI("file:///C:/Users/dimitarpahnev/Downloads/brra.bg/2008"));
+            bp = new BrraParser(new URI("file:///C:/Users/borisrosenov/Downloads/brra.bg/2008/1"));
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try {
             bp.parseAll();
         } catch (JAXBException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         // SpringApplication.run(BrraApplication.class, args);

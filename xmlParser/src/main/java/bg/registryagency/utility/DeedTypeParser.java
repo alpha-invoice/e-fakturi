@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 
 import bg.registryagency.exception.InvalidDeedException;
 import bg.registryagency.schemas.deedv2.DeedType;
-import bg.registryagency.schemas.deedv2.SubDeedType;
 import bg.registryagency.schemas.deedv2.fields.AddressType;
 
 public class DeedTypeParser {
@@ -31,44 +30,13 @@ public class DeedTypeParser {
     /**
      * TODO : to be extracted (complete refactoring to be done ). Based on the
      * legalForm extracts mol from the deedType.
-     * 
+     *
      * @return String mol name, or null if there is no present
      */
     public String getMol() {
-        String legalForm = deedType.getLegalForm();
         try {
-            SubDeedType subDeedType = deedType.getSubDeed().get(0);
-            if (LegalFormUtils.isCompanyMolRepresentative(legalForm)) {
-                return subDeedType
-                        .getRepresentatives().get(0)
-                        .getRepresentative().get(0)
-                        .getPerson().getName();
-            } else if (LegalFormUtils.isCompanyMolAssignedManager(legalForm)) {
-                return subDeedType
-                        .getAssignedManagers().get(0)
-                        .getAssignedManager().get(0)
-                        .getSubject().getName();
-            } else if (LegalFormUtils.isCompanyMolTrustee(legalForm)) {
-                return subDeedType
-                        .getTrustees().get(0)
-                        .getTrustee().get(0)
-                        .getPerson().getName();
-            } else if (LegalFormUtils.isCompanyMolManager(legalForm)) {
-                return subDeedType
-                        .getManagers().get(0)
-                        .getManager().get(0)
-                        .getPerson().getName();
-            } else if (legalForm.equals("ET")) {
-                return subDeedType
-                        .getPhysicalPersonTrader().get(0)
-                        .getPerson().getName();
-            } else {
-                return subDeedType
-                        .getManagers().get(0)
-                        .getManager().get(0)
-                        .getPerson().getName();
-            }
-        } catch (IndexOutOfBoundsException e) {
+            return LegalFormUtils.getMol(deedType);
+        } catch (Exception e) {
             return null;
         }
     }

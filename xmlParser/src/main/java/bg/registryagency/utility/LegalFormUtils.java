@@ -1,17 +1,14 @@
 package bg.registryagency.utility;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import bg.registryagency.schemas.deedv2.DeedType;
 
 public class LegalFormUtils {
 
     private static final Map<String, String> bulgarianLegalForms;
-    private static final List<String> representedCompaniesByRepresentative;
-    private static final List<String> representedCompaniesByManager;
-    private static final List<String> assignedManagers;
-    private static final List<String> trustee;
+    private static final Map<String, ParseMolMethod> parseMolMap;
 
     static {
         HashMap<String, String> map = new HashMap<>();
@@ -24,31 +21,26 @@ public class LegalFormUtils {
         map.put("KD", "КД");
         map.put("KDA", "КДА");
         map.put("IAD", "АДСИЦ");
+        map.put("K", "K");
         bulgarianLegalForms = map;
 
-        ArrayList<String> representativesList = new ArrayList<>();
-        representativesList.add("AD");
-        representedCompaniesByRepresentative = representativesList;
+        HashMap<String, ParseMolMethod> parser = new HashMap<>();
 
-        ArrayList<String> managersList = new ArrayList<>();
-        managersList.add("OOD");
-        managersList.add("EOOD");
-        representedCompaniesByManager = managersList;
-
-        ArrayList<String> assignee = new ArrayList<>();
-        assignee.add("SD");
-        assignedManagers = assignee;
-
-        ArrayList<String> trusteeForEAD = new ArrayList<>();
-        trusteeForEAD.add("EAD");
-        trustee = trusteeForEAD;
+        parser.put("AD", (deedType) -> getRepresentative(deedType));
+        parser.put("IAD", (deedType) -> getRepresentative(deedType));
+        parser.put("EAD", (deedType) -> getRepresentative(deedType));
+        parser.put("OOD", (deedType) -> getManager(deedType));
+        parser.put("EOOD", (deedType) -> getManager(deedType));
+        parser.put("SD", (deedType) -> getAssignedManager(deedType));
+        parser.put("ET", (deedType) -> getPhysicalTrader(deedType));
+        parser.put("K", (deedType) -> getChairman(deedType));
+        parseMolMap = parser;
     }
 
     /**
      * Returns legalForm in Bulgarian translation.
-     * 
-     * @param legalForm
-     *            the legal form of the company.
+     *
+     * @param legalForm the legal form of the company.
      * @return
      */
     public static String getLegalFormInBulgarian(String legalForm) {
@@ -58,48 +50,41 @@ public class LegalFormUtils {
         return legalForm;
     }
 
-    /**
-     * Returns whether this company type is represented by Representatives.
-     * 
-     * @param legalForm
-     *            The legal form of the company
-     * @return true if the company is represented by Representatives.
-     */
-    public static boolean isCompanyMolRepresentative(String legalForm) {
-        return representedCompaniesByRepresentative.contains(legalForm);
+    public static String getMol(DeedType deedType) throws Exception {
+        return parseMolMap.get(deedType.getLegalForm()).parseMolFromDeed(deedType);
     }
 
-    /**
-     * Returns whether this company type is represented by Manager.
-     * 
-     * @param legalForm
-     *            The legal form of the company
-     * @return true if the company is represented by Manager.
-     */
-    public static boolean isCompanyMolManager(String legalForm) {
-        return representedCompaniesByManager.contains(legalForm);
+    private static String getManager(DeedType deedType) throws IndexOutOfBoundsException {
+        return deedType.getSubDeed().get(0)
+                .getManagers().get(0)
+                .getManager().get(0)
+                .getPerson().getName();
     }
 
-    /**
-     * Returns whether this company type is represented by Trustee.
-     * 
-     * @param legalForm
-     *            The legal form of the company
-     * @return true if the company is represented by Trustee.
-     */
-    public static boolean isCompanyMolTrustee(String legalForm) {
-        return trustee.contains(legalForm);
+    private static String getAssignedManager(DeedType deedType) throws IndexOutOfBoundsException {
+        return deedType.getSubDeed().get(0)
+                .getAssignedManagers().get(0)
+                .getAssignedManager().get(0)
+                .getSubject().getName();
     }
 
-    /**
-     * Returns whether this company type is represented by AssignedManager.
-     * 
-     * @param legalForm
-     *            The legal form of the company
-     * @return true if the company is represented by AssignedManager.
-     */
-    public static boolean isCompanyMolAssignedManager(String legalForm) {
-        return assignedManagers.contains(legalForm);
+    private static String getRepresentative(DeedType deedType) throws IndexOutOfBoundsException {
+        return deedType.getSubDeed().get(0)
+                .getRepresentatives().get(0)
+                .getRepresentative().get(0)
+                .getPerson().getName();
+    }
+
+    private static String getPhysicalTrader(DeedType deedType) throws IndexOutOfBoundsException {
+        return deedType.getSubDeed().get(0)
+                .getPhysicalPersonTrader().get(0)
+                .getPerson().getName();
+    }
+
+    private static String getChairman(DeedType deedType) throws IndexOutOfBoundsException {
+        return deedType.getSubDeed().get(0)
+                .getChairMan().get(0)
+                .getPerson().getName();
     }
 
 }
