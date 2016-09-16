@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import bg.registryagency.exception.InvalidDeedException;
 import bg.registryagency.schemas.deedv2.DeedType;
@@ -25,10 +26,12 @@ public class BrraCompany {
     @Column(unique = true)
     private String eik;
 
+    @Size(max = 511)
     private String name;
 
     private String mol;
 
+    @Size(max = 511)
     private String address;
 
     @Transient

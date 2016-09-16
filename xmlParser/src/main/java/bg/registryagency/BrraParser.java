@@ -46,6 +46,8 @@ public class BrraParser {
 
     private long logTimer;
 
+    private boolean isLoggingEnabled;
+
     private URI registryLocation;
 
     // we identify each {@link BrraCompany} by its EIK (UIC)
@@ -63,17 +65,7 @@ public class BrraParser {
     public BrraParser(URI registryLocation) {
         this.registryLocation = registryLocation;
         this.companies = new HashMap<>();
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                try {
-                    createLogFile();
-                } catch (IOException e) {
-                    System.err.println("Logging into file was interrupter with exception.");
-                    e.printStackTrace();
-                }
-            };
-        });
+        this.isLoggingEnabled = false;
     }
 
     /**
@@ -94,6 +86,14 @@ public class BrraParser {
             if (file.isFile()) {
                 List<BrraCompany> parsedBrraCompanies = parseBrraXMLPage(file);
                 updateCompanies(parsedBrraCompanies);
+            }
+        }
+
+        if (isLoggingEnabled) {
+            try {
+                createLogFile();
+            } catch (Exception e) {
+                System.err.println("Logging failed");
             }
         }
 
@@ -249,6 +249,14 @@ public class BrraParser {
         fileOutputStream.close();
 
         System.out.println("hashmap size : " + companies.size());
+    }
+
+    public void setLoggingEnabled(boolean isLoggingEnabled) {
+        this.isLoggingEnabled = isLoggingEnabled;
+    }
+
+    public boolean getLoggingEnabled() {
+        return isLoggingEnabled;
     }
 
 }

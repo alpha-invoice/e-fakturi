@@ -22,6 +22,8 @@ public class LegalFormUtils {
         map.put("KDA", "КДА");
         map.put("IAD", "АДСИЦ");
         map.put("K", "K");
+        map.put("TPPD", "ТППД");
+        map.put("TPP", "ТПП");
         bulgarianLegalForms = map;
 
         HashMap<String, ParseMolMethod> parser = new HashMap<>();
@@ -31,6 +33,10 @@ public class LegalFormUtils {
         parser.put("EAD", (deedType) -> getRepresentative(deedType));
         parser.put("OOD", (deedType) -> getManager(deedType));
         parser.put("EOOD", (deedType) -> getManager(deedType));
+        parser.put("TPP", (deedType) -> getManager(deedType));
+        parser.put("TPPD", (deedType) -> getManager(deedType));
+        parser.put("KD", (deedType) -> getManager(deedType));
+        parser.put("KDA", (deedType) -> getManager(deedType));
         parser.put("SD", (deedType) -> getAssignedManager(deedType));
         parser.put("ET", (deedType) -> getPhysicalTrader(deedType));
         parser.put("K", (deedType) -> getChairman(deedType));

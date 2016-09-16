@@ -35,7 +35,12 @@ public class DeedTypeParser {
      */
     public String getMol() {
         try {
-            return LegalFormUtils.getMol(deedType);
+            String mol = LegalFormUtils.getMol(deedType);
+            if (mol.length() < 100) {
+                return mol;
+            }
+
+            return null;
         } catch (Exception e) {
             return null;
         }
