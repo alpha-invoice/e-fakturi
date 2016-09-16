@@ -153,11 +153,23 @@ public class CreatePDFService {
         for (XWPFParagraph paragraph : xdoc.getParagraphs()) {
             replaceIncompatibleFonts(paragraph);
         }
-        for (XWPFTable table : xdoc.getTables()) {
-            for (XWPFTableRow row : table.getRows()) {
-                for (XWPFTableCell cell : row.getTableCells()) {
-                    for (XWPFParagraph paragraph : cell.getParagraphs()) {
-                        replaceIncompatibleFonts(paragraph);
+        List<XWPFTable> tables = xdoc.getTables();
+        if (tables != null) {
+            for (XWPFTable table : tables) {
+                List<XWPFTableRow> rows = table.getRows();
+                if (rows != null) {
+                    for (XWPFTableRow row : rows) {
+                        List<XWPFTableCell> cells = row.getTableCells();
+                        if (cells != null) {
+                            for (XWPFTableCell cell : cells) {
+                                List<XWPFParagraph> paragraphs = cell.getParagraphs();
+                                if (paragraphs != null) {
+                                    for (XWPFParagraph paragraph : paragraphs) {
+                                        replaceIncompatibleFonts(paragraph);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
