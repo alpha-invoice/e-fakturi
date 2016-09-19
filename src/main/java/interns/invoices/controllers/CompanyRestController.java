@@ -1,13 +1,14 @@
 package interns.invoices.controllers;
 
-import interns.invoices.models.Company;
-import interns.invoices.repositories.CompanyRepository;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import interns.invoices.models.Company;
+import interns.invoices.repositories.CompanyRepository;
 
 /**
  * Defines a RestController class where we
@@ -16,7 +17,7 @@ import java.util.Collection;
  * which tells spring boot to inject an instance of our
  * {@link CompanyRepository}.
  */
-@RestController
+@RestController()
 public class CompanyRestController {
     @Autowired
     private CompanyRepository companyRepository;
@@ -27,7 +28,7 @@ public class CompanyRestController {
      * @return a json representation of all users found in the repository
      * or an empty collection
      */
-    @RequestMapping("/companies")
+    @RequestMapping("/api/companies")
     Collection<Company> getAllCompanies() {
         return this.companyRepository.findAll();
     }
@@ -38,7 +39,7 @@ public class CompanyRestController {
      * @param eik a query parameter which is passed from the url
      * @return a json representation of found Company or null
      */
-    @RequestMapping(value = "/companies", params = {"eik"})
+    @RequestMapping(value = "/api/companies", params = { "eik" })
     Company getCompanyByEik(@RequestParam String eik) {
         return this.companyRepository.findCompanyByEik(eik);
     }

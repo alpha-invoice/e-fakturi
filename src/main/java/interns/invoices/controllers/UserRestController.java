@@ -1,27 +1,26 @@
 package interns.invoices.controllers;
 
-import interns.invoices.models.UserInfo;
-import interns.invoices.repositories.UserRepository;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import interns.invoices.models.UserInfo;
+import interns.invoices.repositories.UserRepository;
 
 /**
- * Defines a RestController class where we
- * specify the endpoint URLs for the UserInfo service.
- * It uses an Autowired annotation for our repository
- * which tells spring boot to inject an instance of our
- * {@link UserRepository}.
+ * Defines a RestController class where we specify the endpoint URLs for the
+ * UserInfo service. It uses an Autowired annotation for our repository which
+ * tells spring boot to inject an instance of our {@link UserRepository}.
  */
-@RestController
+@RestController()
 public class UserRestController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/me")
+    @RequestMapping("/api/me")
     public UserInfo myInfo(HttpServletRequest request) {
-        return (UserInfo)request.getSession().getAttribute("user");
+        return (UserInfo) request.getSession().getAttribute("user");
     }
 }

@@ -1,11 +1,12 @@
 package interns.invoices.config;
 
-import interns.invoices.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+
+import interns.invoices.repositories.UserRepository;
 
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -18,7 +19,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 AbstractPreAuthenticatedProcessingFilter.class)
                 .authorizeRequests()
                 .antMatchers("/**")
-                    .permitAll()
+                .permitAll()
                 .and().csrf().disable();
     }
 }

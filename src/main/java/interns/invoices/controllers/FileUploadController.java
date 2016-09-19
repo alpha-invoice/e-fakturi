@@ -26,7 +26,7 @@ import interns.invoices.repositories.UserRepository;
  * interface, which extends the JpaRepository. The exposed end-point is /upload.
  *
  */
-@RestController
+@RestController()
 public class FileUploadController {
 
     @Autowired
@@ -52,7 +52,7 @@ public class FileUploadController {
      * @return HTTP status code 200 OK if the file was written to the database
      *         correctly or HTTP status code 400 Bad Request otherwise.
      */
-    @RequestMapping(path = "/upload", method = RequestMethod.POST)
+    @RequestMapping(path = "/api/upload", method = RequestMethod.POST)
     public ResponseEntity<?> uploadUserTemplateFile(@Valid @RequestParam("file") MultipartFile file) {
         /*
          * NB!
