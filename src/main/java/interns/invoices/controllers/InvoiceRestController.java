@@ -115,15 +115,13 @@ public class InvoiceRestController {
                                     invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
                     .body(new InputStreamResource(
                             new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
+            this.invoiceRepository.save(invoice);
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
         } catch (Exception e) {
             // In case docx4j cannot load OpenXML schemas.
             e.printStackTrace();
         }
-
-        System.out.println(invoice.getSender().getIsVATRegistered());
-        System.out.println(invoice.getRecipient().getIsVATRegistered());
 
         return response;
     }
