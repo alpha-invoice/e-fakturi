@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -101,10 +102,12 @@ public class InvoiceRestController {
      * @throws InvalidInvoiceException
      *             Occurs when the entered data is in an invalid format.
      */
+    @CrossOrigin
     @RequestMapping(value = "/api/create/invoice", method = RequestMethod.POST)
     public ResponseEntity<InputStreamResource> createInvoice(@RequestBody Invoice invoice)
             throws InvalidInvoiceException {
         ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         try {
             response = ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION,
@@ -118,6 +121,10 @@ public class InvoiceRestController {
             // In case docx4j cannot load OpenXML schemas.
             e.printStackTrace();
         }
+
+        System.out.println(invoice.getSender().getIsVATRegistered());
+        System.out.println(invoice.getRecipient().getIsVATRegistered());
+
         return response;
     }
 

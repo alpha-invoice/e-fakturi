@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
@@ -36,6 +37,7 @@ public class Company extends BaseEntity {
     @Length(min = 9, max = 9)
     private String eik;
     /** Bulgarian: Ñ€ÐµÐ³Ð¸Ñ�Ñ‚Ñ€Ð¸Ñ€Ð°Ð½ Ð¿Ð¾ Ð”Ð”Ð¡ */
+    @JsonProperty("isVatRegistered")
     private boolean isVATRegistered;
     /** Bulgarian: Ð°Ð´Ñ€ÐµÑ� Ð½Ð° Ñ„Ð¸Ñ€Ð¼Ð°Ñ‚Ð° */
     private String address;
@@ -90,11 +92,11 @@ public class Company extends BaseEntity {
         this.eik = eik;
     }
 
-    public boolean isVATRegistered() {
+    public boolean getIsVATRegistered() {
         return isVATRegistered;
     }
 
-    public void setVATRegistered(boolean VATRegistered) {
+    public void setIsVATRegistered(boolean VATRegistered) {
         isVATRegistered = VATRegistered;
     }
 

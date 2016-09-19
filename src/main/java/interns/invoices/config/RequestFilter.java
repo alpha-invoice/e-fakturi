@@ -40,6 +40,12 @@ public class RequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        // Remove before build
+        if (request.getMethod().equals("OPTIONS")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if(request.getRequestURI().startsWith("/api")) {
             String accessToken = request.getHeader("Authorization");
             if (accessToken != null) {
