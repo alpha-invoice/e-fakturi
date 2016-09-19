@@ -30,6 +30,19 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
+
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.security.oauth:spring-security-oauth2')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile 'com.google.api-client:google-api-client:1.20.0'
+	compile 'com.google.apis:google-api-services-oauth2:v2-rev75-1.19.0'
+	compile('org.json:json:20090211')
+	
+	//compile ('org.apache.poi:poi:3.15-beta2')
+	compile ('fr.opensagres.xdocreport:fr.opensagres.xdocreport.converter.docx.xwpf:1.0.6')
+	compile ('com.lowagie:itext:2.1.7')
+	compile ('org.docx4j:docx4j:3.3.1') 	
+	
 //	compile('org.springframework.boot:spring-boot-starter-web')
 //	compile('org.springframework.security.oauth:spring-security-oauth2')
 //	compile('org.springframework.boot:spring-boot-starter-security')
@@ -40,6 +53,10 @@ dependencies {
 	testCompile('org.testng:testng:6.9.10')
 }
 
+configurations.all {
+    exclude group: "org.slf4j", module: "slf4j-log4j12"
+    exclude group: "log4j", module: "log4j"
+}
 
 eclipse {
 	classpath {

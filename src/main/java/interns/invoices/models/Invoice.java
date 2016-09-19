@@ -1,50 +1,57 @@
 package interns.invoices.models;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
- * Bulgarian: фактура
- * {@link JsonIdentityInfo} annotation is used every time
- * Jackson serializes your object. It will add an ID to it,
- * so that it won't entirely "scan" the object again every time.
- * We use it to prevent infinite recursion while having chained
- * relations between objects User -> Company -> Invoice -> Company
+ * Bulgarian: Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð° {@link JsonIdentityInfo} annotation is used every
+ * time Jackson serializes your object. It will add an ID to it, so that it
+ * won't entirely "scan" the object again every time. We use it to prevent
+ * infinite recursion while having chained relations between objects UserInfo ->
+ * Company -> Invoice -> Company
  */
 @Entity
 @JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@invoiceId")
 public class Invoice extends BaseEntity {
     /**
-     * Bulgarian: номер на фактура
+     * Bulgarian: Ð½Ð¾Ð¼ÐµÑ€ Ð½Ð° Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð°
      */
     @NotNull
     private String invoiceNumber;
 
+    @NotNull
+    private LocalDate date;
+
     /**
-     * Bulgarian: доставчик
+     * Bulgarian: Ð´Ð¾Ñ�Ñ‚Ð°Ð²Ñ‡Ð¸Ðº
      */
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private Company sender;
 
     /**
-     * Bulgarian: получател
+     * Bulgarian: Ð¿Ð¾Ð»ÑƒÑ‡Ð°Ñ‚ÐµÐ»
      */
     @OneToOne
     @NotNull
     private Company recipient;
 
     /**
-     * Bulgarian: наименования на стоките/услугите
+     * Bulgarian: Ð½Ð°Ð¸Ð¼ÐµÐ½Ð¾Ð²Ð°Ð½Ð¸Ñ� Ð½Ð° Ñ�Ñ‚Ð¾ÐºÐ¸Ñ‚Ðµ/ÑƒÑ�Ð»ÑƒÐ³Ð¸Ñ‚Ðµ
      */
     @ElementCollection()
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -84,6 +91,14 @@ public class Invoice extends BaseEntity {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override
