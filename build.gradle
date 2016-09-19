@@ -50,6 +50,7 @@ dependencies {
 	runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+	testCompile('org.testng:testng:6.9.10')
 }
 
 configurations.all {

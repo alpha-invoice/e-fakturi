@@ -30,7 +30,7 @@ import services.CreatePDFService;
  * tells spring boot to inject an instance of our {@link CompanyRepository} and
  * {@link InvoiceRepository}.
  */
-@RestController
+@RestController()
 public class InvoiceRestController {
     private static final String CONTENT_DISPOSITION_TYPE_INLINE_STRING = "inline;filname=";
     @Autowired
@@ -45,7 +45,7 @@ public class InvoiceRestController {
      *         an empty collection
      */
     // TODO: Should return all invoices created by a user
-    @RequestMapping("/invoices")
+    @RequestMapping("/api/invoices")
     Collection<Invoice> getAllInvoices() {
         return this.invoiceRepository.findAll();
     }
@@ -57,7 +57,7 @@ public class InvoiceRestController {
      *            a path parameter which is passed from the url
      * @return a json representation of an invoice or null.
      */
-    @RequestMapping("/invoices/{id}")
+    @RequestMapping("/api/invoices/{id}")
     Invoice getInvoiceById(@PathVariable("id") Long id) {
         return this.invoiceRepository.findOne(id);
     }
@@ -78,7 +78,7 @@ public class InvoiceRestController {
      *             {@link javax.validation.ConstraintViolationException} when
      *             validating the input json request body.
      */
-    @RequestMapping(value = "/invoices", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/invoices", method = RequestMethod.POST)
     void saveInvoice(@RequestBody Invoice invoice) throws InvalidInvoiceException {
         System.out.println(invoice);
         try {
@@ -101,7 +101,7 @@ public class InvoiceRestController {
      * @throws InvalidInvoiceException
      *             Occurs when the entered data is in an invalid format.
      */
-    @RequestMapping(value = "/create/invoice", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/create/invoice", method = RequestMethod.POST)
     public ResponseEntity<InputStreamResource> createInvoice(@RequestBody Invoice invoice)
             throws InvalidInvoiceException {
         ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
