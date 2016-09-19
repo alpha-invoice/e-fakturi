@@ -2,7 +2,12 @@ package interns.invoices.models;
 
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -29,12 +34,12 @@ public class UserInfo {
     @NotNull
     private String email;
 
-    /** Bulgarian: записани компании от които потребителя издава фактури */
+    /**
+     * Bulgarian: Ð·Ð°Ð¿Ð¸Ñ�Ð°Ð½Ð¸ ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸Ð¸ Ð¾Ñ‚ ÐºÐ¾Ð¸Ñ‚Ð¾
+     * Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»Ñ� Ð¸Ð·Ð´Ð°Ð²Ð° Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð¸
+     */
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Company> myCompanies;
-
-    @Lob
-    private byte[] userInvoiceTemplate;
 
     @Transient
     private String accessToken;
@@ -64,14 +69,6 @@ public class UserInfo {
 
     public void setMyCompanies(Set<Company> myCompanies) {
         this.myCompanies = myCompanies;
-    }
-
-    public byte[] getUserInvoiceTemplate() {
-        return userInvoiceTemplate;
-    }
-
-    public void setUserInvoiceTemplate(byte[] userInvoiceTemplate) {
-        this.userInvoiceTemplate = userInvoiceTemplate;
     }
 
     public String getAccessToken() {

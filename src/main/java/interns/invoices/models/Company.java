@@ -1,10 +1,20 @@
 package interns.invoices.models;
 
-import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * Used for defining recipient and sender of an {@link Invoice}.
@@ -17,25 +27,28 @@ import java.util.Set;
 @Entity(name = "companies")
 @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property = "@companyId")
 public class Company extends BaseEntity {
-    /** Bulgarian: име на фирма */
+    /** Bulgarian: Ð¸Ð¼Ðµ Ð½Ð° Ñ„Ð¸Ñ€Ð¼Ð° */
     private String name;
-    /** Bulgarian: МОЛ */
+    /** Bulgarian: ÐœÐžÐ› */
     private String mol;
-    /** Bulgarian: ЕИК */
+    /** Bulgarian: Ð•Ð˜Ðš */
     @Column(unique = true)
     @Length(min = 9, max = 9)
     private String eik;
-    /** Bulgarian: регистриран по ДДС */
+    /** Bulgarian: Ñ€ÐµÐ³Ð¸Ñ�Ñ‚Ñ€Ð¸Ñ€Ð°Ð½ Ð¿Ð¾ Ð”Ð”Ð¡ */
     private boolean isVATRegistered;
-    /** Bulgarian: адрес на фирмата */
+    /** Bulgarian: Ð°Ð´Ñ€ÐµÑ� Ð½Ð° Ñ„Ð¸Ñ€Ð¼Ð°Ñ‚Ð° */
     private String address;
-    /** Bulgarian: издадени фактури от фирма */
+    /** Bulgarian: Ð¸Ð·Ð´Ð°Ð´ÐµÐ½Ð¸ Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð¸ Ð¾Ñ‚ Ñ„Ð¸Ñ€Ð¼Ð° */
     @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Invoice> issuedInvoices;
-    /** Bulgarian: потребителя, записал фирмата*/
+    /** Bulgarian: Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»Ñ�, Ð·Ð°Ð¿Ð¸Ñ�Ð°Ð» Ñ„Ð¸Ñ€Ð¼Ð°Ñ‚Ð° */
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private UserInfo owner;
+
+    @OneToOne(mappedBy = "company")
+    private InvoiceTemplate template;
 
     public Company() {
     }
@@ -107,6 +120,14 @@ public class Company extends BaseEntity {
 
     public void setOwner(UserInfo owner) {
         this.owner = owner;
+    }
+
+    public InvoiceTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(InvoiceTemplate template) {
+        this.template = template;
     }
 
     @Override
