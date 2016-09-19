@@ -18,6 +18,7 @@ import interns.invoices.repositories.BrraCompanyRepository;
 public class BrraCompanyRestController {
 
     private static final String EIK_KEY = "eik";
+
     @Autowired
     private BrraCompanyRepository brraCompanyRepository;
 
@@ -25,12 +26,11 @@ public class BrraCompanyRestController {
     public ResponseEntity<BrraCompany> getBrraCompanyByEik(@RequestBody String request) {
         String eik;
         try {
-            JSONObject json = new JSONObject(request);
-            eik = json.get(EIK_KEY).toString();
+            eik = extractEikFromReqest(request);
         } catch (JSONException e) {
             return ResponseEntity.badRequest().body(null);
         }
-        if (eik == null || eik.length() != 9 || !isValidFormat(eik)) {
+        if (!isValidInput(eik)) {
             return ResponseEntity.badRequest().body(null);
         }
         BrraCompany brra = brraCompanyRepository.findByEik(eik);
@@ -40,7 +40,42 @@ public class BrraCompanyRestController {
         return ResponseEntity.ok(brra);
     }
 
-    private boolean isValidFormat(String input) {
+    /**
+     * @param eik
+     * @return true if the eik input is valid. Else if is missing or incorrect
+     *         format
+     */
+    private boolean isValidInput(String eik) {
+        if (eik != null && eik.length() == 9 || isNumber(eik)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Parse request json and extract the value of eik
+     * 
+     * @param request
+     *            json string.
+     * @return the value of eik from request.
+     * @throws JSONException
+     *             if the request format is not correct and can not parse eik
+     *             from it.
+     */
+    private String extractEikFromReqest(String request) throws JSONException {
+        JSONObject json = new JSONObject(request);
+        return json.get(EIK_KEY).toString();
+
+    }
+
+    /**
+     * Checks whether the input is a number.
+     * 
+     * @param input
+     *            the input data
+     * @return true if the input is number.False otherwise.
+     */
+    private boolean isNumber(String input) {
         try {
             Long.parseLong(input);
         } catch (NumberFormatException e) {
