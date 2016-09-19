@@ -1,5 +1,6 @@
 package interns.invoices.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -25,7 +27,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * to generate the invoices that the specific user will issue.
  */
 @Entity(name = "users")
-@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@userId")
 public class UserInfo {
     @Id
     @JsonProperty("user_id")
@@ -39,12 +40,14 @@ public class UserInfo {
      * Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»Ñ� Ð¸Ð·Ð´Ð°Ð²Ð° Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð¸
      */
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<Company> myCompanies;
 
     @Transient
     private String accessToken;
 
     public UserInfo() {
+        this.myCompanies = new HashSet<>();
     }
 
     public String getId() {
@@ -66,9 +69,9 @@ public class UserInfo {
     public Set<Company> getMyCompanies() {
         return myCompanies;
     }
-
-    public void setMyCompanies(Set<Company> myCompanies) {
-        this.myCompanies = myCompanies;
+    
+    public void addCompany(Company company) {
+        this.myCompanies.add(company);
     }
 
     public String getAccessToken() {

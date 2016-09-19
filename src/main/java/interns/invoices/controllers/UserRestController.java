@@ -3,6 +3,7 @@ package interns.invoices.controllers;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,8 @@ import interns.invoices.repositories.UserRepository;
  * UserInfo service. It uses an Autowired annotation for our repository which
  * tells spring boot to inject an instance of our {@link UserRepository}.
  */
-@RestController()
+@RestController
+@CrossOrigin
 public class UserRestController {
     @Autowired
     private UserRepository userRepository;
