@@ -95,12 +95,7 @@ public class InvoiceRestController {
             this.userRepository.save(cachedUser);
             
             
-            response = ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
-                    .header(HttpHeaders.CONTENT_DISPOSITION,
-                            CONTENT_DISPOSITION_TYPE_INLINE_STRING +
-                                    invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
-                    .body(new InputStreamResource(
-                            new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
+            response = parseInvoiceToResponseObject(invoice);
             
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
@@ -125,19 +120,24 @@ public class InvoiceRestController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/invoices/create", method = RequestMethod.POST)
-    public ResponseEntity<InputStreamResource> createInvoice(@RequestBody Invoice invoice)
+    public ResponseEntity<InputStreamResource> getInvoiceAsResponse(@RequestBody Invoice invoice,HttpServletRequest request)
             throws InvalidInvoiceException {
         ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         try {
-            response = ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
-                    .header(HttpHeaders.CONTENT_DISPOSITION,
-                            CONTENT_DISPOSITION_TYPE_INLINE_STRING +
-                                    invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
-                    .body(new InputStreamResource(
-                            new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
+            //get cached user
+            UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
+            //set invoice owner
+            invoice.getSender().setOwner(cachedUser);
+            //
+            Company sender = updateCompany(invoice.getSender());
+            updateCompany(invoice.getRecipient());
             
+            cachedUser.addCompany(sender);
+            System.out.println("After add" + cachedUser.getMyCompanies().size());
+            this.userRepository.save(cachedUser);
             this.invoiceRepository.save(invoice);
+            response = parseInvoiceToResponseObject(invoice);
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
         } catch (Exception e) {
@@ -146,6 +146,15 @@ public class InvoiceRestController {
         }
 
         return response;
+    }
+
+    private ResponseEntity<InputStreamResource> parseInvoiceToResponseObject(Invoice invoice) throws Docx4JException, JAXBException, IOException {
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        CONTENT_DISPOSITION_TYPE_INLINE_STRING +
+                                invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
+                .body(new InputStreamResource(
+                        new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
     }
 
     /**

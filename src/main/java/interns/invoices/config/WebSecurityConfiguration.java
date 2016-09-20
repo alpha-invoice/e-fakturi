@@ -6,16 +6,20 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
+import interns.invoices.repositories.CompanyRepository;
 import interns.invoices.repositories.UserRepository;
 
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserRepository userRepository;
-
+    
+    @Autowired
+    private CompanyRepository companyRepository;
+    
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new RequestFilter(userRepository),
+        http.addFilterBefore(new RequestFilter(userRepository,companyRepository),
                 AbstractPreAuthenticatedProcessingFilter.class)
                 .authorizeRequests()
                 .antMatchers("/**")

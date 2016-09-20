@@ -50,7 +50,7 @@ public class Company extends BaseEntity {
     
     /** Bulgarian: Ð¸Ð·Ð´Ð°Ð´ÐµÐ½Ð¸ Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð¸ Ð¾Ñ‚ Ñ„Ð¸Ñ€Ð¼Ð° */
     @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JsonBackReference
+    @JsonManagedReference
     private Set<Invoice> issuedInvoices;
     
     /** Bulgarian: Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»Ñ�, Ð·Ð°Ð¿Ð¸Ñ�Ð°Ð» Ñ„Ð¸Ñ€Ð¼Ð°Ñ‚Ð° */
