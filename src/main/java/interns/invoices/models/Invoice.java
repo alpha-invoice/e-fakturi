@@ -17,6 +17,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Bulgarian:
@@ -44,6 +45,7 @@ public class Invoice extends BaseEntity {
     @CreationTimestamp
     private Timestamp createdAt;
 
+    @JsonProperty("date")
     @NotNull
     private Date inputDate;
 

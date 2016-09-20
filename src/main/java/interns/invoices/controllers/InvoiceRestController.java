@@ -136,7 +136,7 @@ public class InvoiceRestController {
                     .body(new InputStreamResource(
                             new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
 
-            this.invoiceRepository.save(invoice);
+            // this.invoiceRepository.save(invoice);
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
         } catch (Exception e) {

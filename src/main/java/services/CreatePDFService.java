@@ -40,7 +40,7 @@ public class CreatePDFService {
     private static final String DEFAULT_FONT_FAMILY = "Arial";
     private static final String DEFAULT_TEMPLATE_PATH = "defaultTemplate.docx";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-    private static HashSet<String> incompatibleFonts = new HashSet<String>();
+    private static HashSet<String> incompatibleFonts = new HashSet<>();
     // Populates the list of incompatible fonts.
     static {
         incompatibleFonts.add(BaseFont.COURIER);
@@ -118,7 +118,7 @@ public class CreatePDFService {
         Company sender = invoice.getSender();
         Company recepient = invoice.getRecipient();
         Item item = invoice.getItems().get(0);
-        Map<String, String> replacements = new LinkedHashMap<String, String>();
+        Map<String, String> replacements = new LinkedHashMap<>();
         replacements.put("recipient.name", recepient.getName());
         replacements.put("recipient.address", recepient.getAddress());
         replacements.put("recipient.eik", recepient.getEik());
@@ -142,6 +142,7 @@ public class CreatePDFService {
         BigDecimal total = new BigDecimal(quantity * priceWithoutVat);
         replacements.put("total", formatter.format(total));
         replacements.put("withVAT", formatter.format(total.add(percentage(total, tax))));
+        replacements.put("currency", invoice.getCurrency());
 
         return replacements;
     }
