@@ -5,9 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import interns.invoices.models.InvoiceTemplate;
+import interns.invoices.models.InvoiceRestTemplate;
 import interns.invoices.models.UserInfo;
 import interns.invoices.repositories.InvoiceTemplateRepository;
 import interns.invoices.repositories.UserRepository;
@@ -48,6 +46,7 @@ import interns.invoices.repositories.UserRepository;
 @CrossOrigin
 public class TemplateController {
 
+    public static final String DEFAUL_TEMPLATE = "DEFAUL TEMPLATE";
     private static final String INVALID_PLACEHOLDERS = "Placeholders are either not present or insuficient.";
     private static final Pattern PATTERN = Pattern.compile("\\$\\{(.*?)\\}");
     private static List<String> placeholders = new ArrayList<String>();
@@ -117,7 +116,7 @@ public class TemplateController {
             }
 
             UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
-            InvoiceTemplate template = new InvoiceTemplate();
+            InvoiceRestTemplate template = new InvoiceRestTemplate();
             template.setName(fileName);
             template.setUserInvoiceTemplate(file.getBytes());
             template.setUserInfo(cachedUser);
@@ -139,10 +138,11 @@ public class TemplateController {
 
     @CrossOrigin
     @RequestMapping(path = "api/templates", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
-    public Set<String> getTemplateNames(HttpServletRequest request) {
+    public List<String> getTemplateNames(HttpServletRequest request) {
         UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
-        Set<String> templateNames = new HashSet<String>();
-        for (InvoiceTemplate template : cachedUser.getTemplates()) {
+        List<String> templateNames = new ArrayList<String>();
+        templateNames.add(DEFAUL_TEMPLATE);
+        for (InvoiceRestTemplate template : cachedUser.getTemplates()) {
             templateNames.add(template.getName());
         }
         return templateNames;

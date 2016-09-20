@@ -1,5 +1,6 @@
 package interns.invoices.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,10 +49,11 @@ public class UserInfo {
 
     @OneToMany(mappedBy = "userInfo")
     @JsonManagedReference
-    private List<InvoiceTemplate> templates;
+    private List<InvoiceRestTemplate> templates;
 
     public UserInfo() {
         this.myCompanies = new HashSet<>();
+        this.templates = new ArrayList<InvoiceRestTemplate>();
     }
 
     public String getId() {
@@ -86,16 +88,25 @@ public class UserInfo {
         this.accessToken = accessToken;
     }
 
-    public List<InvoiceTemplate> getTemplates() {
+    public List<InvoiceRestTemplate> getTemplates() {
         return templates;
     }
 
-    public void setTemplates(List<InvoiceTemplate> templates) {
+    public void setTemplates(List<InvoiceRestTemplate> templates) {
         this.templates = templates;
     }
 
     public void setMyCompanies(Set<Company> myCompanies) {
         this.myCompanies = myCompanies;
+    }
+
+    public InvoiceRestTemplate getTemplate(String templateName) {
+        for (InvoiceRestTemplate template : templates) {
+            if (template.getName().equals(templateName)) {
+                return template;
+            }
+        }
+        return null;
     }
 
     @Override

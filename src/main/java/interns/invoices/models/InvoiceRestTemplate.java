@@ -2,15 +2,13 @@ package interns.invoices.models;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity(name = "templates")
-public class InvoiceTemplate extends BaseEntity {
+public class InvoiceRestTemplate extends BaseEntity {
 
-    @Lob
     private byte[] userInvoiceTemplate;
 
     @ManyToOne

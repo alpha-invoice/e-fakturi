@@ -2,8 +2,8 @@ package interns.invoices.services;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -38,7 +38,6 @@ import interns.invoices.models.Item;
 public class CreatePDFService {
 
     private static final String DEFAULT_FONT_FAMILY = "Arial";
-    private static final String DEFAULT_TEMPLATE_PATH = "defaultTemplate.docx";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd LLLL yyyy");
     private static HashSet<String> incompatibleFonts = new HashSet<>();
     // Populates the list of incompatible fonts.
@@ -77,10 +76,10 @@ public class CreatePDFService {
      * @throws IOException
      *             Thrown when the invoice template document cannot be loaded.
      */
-    public static ByteArrayOutputStream createInvoicePDF(Invoice invoice)
+    public static ByteArrayOutputStream createInvoicePDF(Invoice invoice, InputStream inputStream)
             throws Docx4JException, JAXBException, IOException {
 
-        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new File(DEFAULT_TEMPLATE_PATH));
+        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
         // Attempts to unite runs with identical styling in order to ensure
         // proper placeholder replacing.
         try {
