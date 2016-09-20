@@ -132,9 +132,8 @@ public class InvoiceRestController {
             //here we update the two companies in our database who match
             //the companies from the invoice
             Company sender = updateCompany(invoice.getSender());
+            cachedUser.addCompany(sender);
             updateCompany(invoice.getRecipient());
-            //persisting the user
-            this.userRepository.save(cachedUser);
             this.invoiceRepository.save(invoice);
             response = parseInvoiceToResponseObject(invoice);
         } catch (javax.validation.ConstraintViolationException | IOException cve) {

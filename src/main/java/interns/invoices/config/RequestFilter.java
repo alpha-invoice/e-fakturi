@@ -106,7 +106,6 @@ public class RequestFilter extends OncePerRequestFilter {
         //set user companies on load
         Set<Company> companies = companyRepository.findByOwner(googleUser);
         googleUser.setMyCompanies(companies);
-        System.out.println("User companies: " + companies.size());
         request.getSession().setAttribute("user", googleUser);
     }
 }
