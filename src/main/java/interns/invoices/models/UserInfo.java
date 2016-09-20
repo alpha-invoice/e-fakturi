@@ -65,11 +65,14 @@ public class UserInfo {
     public void setEmail(String email) {
         this.email = email;
     }
-
     public Set<Company> getMyCompanies() {
         return myCompanies;
     }
     
+    public void setMyCompanies(Set<Company> myCompanies) {
+        this.myCompanies = myCompanies;
+    }
+
     public void addCompany(Company company) {
         this.myCompanies.add(company);
     }

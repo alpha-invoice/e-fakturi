@@ -40,8 +40,8 @@ public class CompanyRestController  {
     @RequestMapping("/api/companies")
     Collection<Company> getAllCompanies(HttpServletRequest request) {
         UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
-        UserInfo user = this.userRepository.findOne(cachedUser.getId());
-        return user.getMyCompanies();
+        System.out.println("User  companies" + cachedUser.getMyCompanies().size());
+        return cachedUser.getMyCompanies();
     }
 
     /**

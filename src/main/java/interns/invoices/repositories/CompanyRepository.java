@@ -1,6 +1,6 @@
 package interns.invoices.repositories;
 
-import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -22,4 +22,5 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
      * @return the found company in the database or null
      */
     Company findCompanyByEik(String eik);
+    HashSet<Company> findByOwner(UserInfo owner);
 }
