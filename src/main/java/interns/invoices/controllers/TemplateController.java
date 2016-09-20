@@ -142,7 +142,7 @@ public class TemplateController {
         UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
         List<String> templateNames = new ArrayList<String>();
         templateNames.add(DEFAUL_TEMPLATE);
-        for (InvoiceRestTemplate template : cachedUser.getTemplates()) {
+        for (InvoiceRestTemplate template : userRepository.findOne(cachedUser.getId()).getTemplates()) {
             templateNames.add(template.getName());
         }
         return templateNames;
