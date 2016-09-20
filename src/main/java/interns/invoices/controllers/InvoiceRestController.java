@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,7 +40,7 @@ import services.CreatePDFService;
 @RestController
 @CrossOrigin
 public class InvoiceRestController {
-    private static final String CONTENT_DISPOSITION_TYPE_INLINE_STRING = "inline;filname=";
+    private static final String CONTENT_DISPOSITION_TYPE_INLINE_STRING = "attachment; filname=";
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
@@ -84,31 +83,31 @@ public class InvoiceRestController {
     @RequestMapping(value = "/api/invoices", method = RequestMethod.PATCH)
     public ResponseEntity<InputStreamResource> saveInvoice(@RequestBody Invoice invoice, HttpServletRequest request) throws InvalidInvoiceException {
         UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
-        
-        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);        
+
+        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
             invoice.getSender().setOwner(cachedUser);
             Company sender = updateCompany(invoice.getSender());
             updateCompany(invoice.getRecipient());
-            this.invoiceRepository.save(invoice);
-            cachedUser.addCompany(sender);
-            this.userRepository.save(cachedUser);
-            
-            
+            // this.invoiceRepository.save(invoice);
+            // cachedUser.addCompany(sender);
+            // this.userRepository.save(cachedUser);
+
+
             response = ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION,
                             CONTENT_DISPOSITION_TYPE_INLINE_STRING +
                                     invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
                     .body(new InputStreamResource(
                             new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
-            
+
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
         } catch (Docx4JException | JAXBException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
         return response;
     }
 
@@ -136,7 +135,7 @@ public class InvoiceRestController {
                                     invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
                     .body(new InputStreamResource(
                             new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
-            
+
             this.invoiceRepository.save(invoice);
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);

@@ -4,9 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -38,6 +39,7 @@ public class CreatePDFService {
 
     private static final String DEFAULT_FONT_FAMILY = "Arial";
     private static final String DEFAULT_TEMPLATE_PATH = "defaultTemplate.docx";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd LLLL yyyy");
     private static HashSet<String> incompatibleFonts = new HashSet<String>();
     // Populates the list of incompatible fonts.
     static {
@@ -122,7 +124,7 @@ public class CreatePDFService {
         replacements.put("recipient.eik", recepient.getEik());
         replacements.put("recipient.in", recepient.getVATNumber());
         replacements.put("recipient.mol", recepient.getMol());
-        replacements.put("date", LocalDate.now().toString());
+        replacements.put("date", invoice.getInputDate().toLocalDate().format(DATE_FORMATTER));
         replacements.put("sender.name", sender.getName());
         replacements.put("sender.address", sender.getAddress());
         replacements.put("sender.eik", sender.getEik());
@@ -134,9 +136,13 @@ public class CreatePDFService {
         replacements.put("quantity", Integer.toString(quantity));
         double priceWithoutVat = item.getPriceWithoutVAT();
         NumberFormat formatter = new DecimalFormat("#0.00");
+        BigDecimal tax = new BigDecimal(invoice.getTax());
+        replacements.put("tax", Integer.toString(invoice.getTax()));
         replacements.put("price", formatter.format(priceWithoutVat));
-        replacements.put("total", formatter.format(quantity * priceWithoutVat));
-        replacements.put("withVAT", formatter.format(quantity * priceWithoutVat * 1.2));
+        BigDecimal total = new BigDecimal(quantity * priceWithoutVat);
+        replacements.put("total", formatter.format(total));
+        replacements.put("withVAT", formatter.format(total.add(percentage(total, tax))));
+
         return replacements;
     }
 
@@ -197,5 +203,9 @@ public class CreatePDFService {
                 }
             }
         }
+    }
+
+    public static BigDecimal percentage(BigDecimal base, BigDecimal pct) {
+        return base.multiply(pct).divide(new BigDecimal(100));
     }
 }

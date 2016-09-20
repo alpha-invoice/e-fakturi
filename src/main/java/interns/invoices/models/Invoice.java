@@ -1,6 +1,6 @@
 package interns.invoices.models;
 
-
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -17,30 +17,39 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
- * Bulgarian: Ã‘â€žÃ�Â°Ã�ÂºÃ‘â€šÃ‘Æ’Ã‘â‚¬Ã�Â° {@link JsonIdentityInfo} annotation is used every
- * time Jackson serializes your object. It will add an ID to it, so that it
- * won't entirely "scan" the object again every time. We use it to prevent
- * infinite recursion while having chained relations between objects UserInfo ->
- * Company -> Invoice -> Company
+ * Bulgarian:
+ * Ã‘â€žÃ�Â°Ã�ÂºÃ‘â€šÃ‘Æ’Ã‘â‚¬Ã�Â°
+ * {@link JsonIdentityInfo} annotation is used every time Jackson serializes
+ * your object. It will add an ID to it, so that it won't entirely "scan" the
+ * object again every time. We use it to prevent infinite recursion while having
+ * chained relations between objects UserInfo -> Company -> Invoice -> Company
  */
 @Entity
 public class Invoice extends BaseEntity {
     /**
-     * Bulgarian: Ã�Â½Ã�Â¾Ã�Â¼Ã�ÂµÃ‘â‚¬ Ã�Â½Ã�Â° Ã‘â€žÃ�Â°Ã�ÂºÃ‘â€šÃ‘Æ’Ã‘â‚¬Ã�Â°
+     * Bulgarian: Ã�Â½Ã�Â¾Ã�Â¼Ã�ÂµÃ‘â‚¬
+     * Ã�Â½Ã�Â°
+     * Ã‘â€žÃ�Â°Ã�ÂºÃ‘â€šÃ‘Æ’Ã‘â‚¬Ã�Â°
      */
     @NotNull
     private String invoiceNumber;
 
+    private int tax;
+
+    @NotNull
+    private String currency;
+
     @CreationTimestamp
     private Timestamp createdAt;
 
+    @NotNull
+    private Date inputDate;
+
     /**
-     * Bulgarian: Ã�Â´Ã�Â¾Ã‘ï¿½Ã‘â€šÃ�Â°Ã�Â²Ã‘â€¡Ã�Â¸Ã�Âº
+     * Bulgarian:
+     * Ã�Â´Ã�Â¾Ã‘ï¿½Ã‘â€šÃ�Â°Ã�Â²Ã‘â€¡Ã�Â¸Ã�Âº
      */
     @ManyToOne
     @JoinColumn(name = "sender_id")
@@ -48,14 +57,18 @@ public class Invoice extends BaseEntity {
     private Company sender;
 
     /**
-     * Bulgarian: Ã�Â¿Ã�Â¾Ã�Â»Ã‘Æ’Ã‘â€¡Ã�Â°Ã‘â€šÃ�ÂµÃ�Â»
+     * Bulgarian:
+     * Ã�Â¿Ã�Â¾Ã�Â»Ã‘Æ’Ã‘â€¡Ã�Â°Ã‘â€šÃ�ÂµÃ�Â»
      */
     @OneToOne
     @NotNull
     private Company recipient;
 
     /**
-     * Bulgarian: Ã�Â½Ã�Â°Ã�Â¸Ã�Â¼Ã�ÂµÃ�Â½Ã�Â¾Ã�Â²Ã�Â°Ã�Â½Ã�Â¸Ã‘ï¿½ Ã�Â½Ã�Â° Ã‘ï¿½Ã‘â€šÃ�Â¾Ã�ÂºÃ�Â¸Ã‘â€šÃ�Âµ/Ã‘Æ’Ã‘ï¿½Ã�Â»Ã‘Æ’Ã�Â³Ã�Â¸Ã‘â€šÃ�Âµ
+     * Bulgarian:
+     * Ã�Â½Ã�Â°Ã�Â¸Ã�Â¼Ã�ÂµÃ�Â½Ã�Â¾Ã�Â²Ã�Â°Ã�Â½Ã�Â¸Ã‘ï¿½
+     * Ã�Â½Ã�Â°
+     * Ã‘ï¿½Ã‘â€šÃ�Â¾Ã�ÂºÃ�Â¸Ã‘â€šÃ�Âµ/Ã‘Æ’Ã‘ï¿½Ã�Â»Ã‘Æ’Ã�Â³Ã�Â¸Ã‘â€šÃ�Âµ
      */
     @ElementCollection()
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -64,7 +77,7 @@ public class Invoice extends BaseEntity {
 
     public Invoice() {
     }
-    
+
     public String getInvoiceNumber() {
         return invoiceNumber;
     }
@@ -92,13 +105,41 @@ public class Invoice extends BaseEntity {
     public List<Item> getItems() {
         return items;
     }
-    
+
     public void setItems(List<Item> items) {
         this.items = items;
-    }    
-        
+    }
+
     public Timestamp getCreatedAt() {
         return createdAt;
+    }
+
+    public int getTax() {
+        return tax;
+    }
+
+    public void setTax(int tax) {
+        this.tax = tax;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public Date getInputDate() {
+        return inputDate;
+    }
+
+    public void setInputDate(Date inputDate) {
+        this.inputDate = inputDate;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
