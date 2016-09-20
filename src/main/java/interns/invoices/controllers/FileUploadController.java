@@ -65,8 +65,6 @@ public class FileUploadController {
         placeholders.add("${total}");
         placeholders.add("${total}");
         placeholders.add("${withVAT}");
-        placeholders.add("${tax}");
-        placeholders.add("${currency}");
     }
 
     @Autowired
