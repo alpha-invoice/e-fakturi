@@ -9,58 +9,50 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Used for defining recipient and sender of an {@link Invoice}.
- * {@link JsonIdentityInfo} annotation is used every time
- * Jackson serializes your object. It will add an ID to it,
- * so that it won't entirely "scan" the object again every time.
- * We use it to prevent infinite recursion while having chained
- * relations between objects UserInfo -> Company -> Invoice -> Company
+ * {@link JsonIdentityInfo} annotation is used every time Jackson serializes
+ * your object. It will add an ID to it, so that it won't entirely "scan" the
+ * object again every time. We use it to prevent infinite recursion while having
+ * chained relations between objects UserInfo -> Company -> Invoice -> Company
  */
 @Entity(name = "companies")
 public class Company extends BaseEntity {
     /** Bulgarian: Ð¸Ð¼Ðµ Ð½Ð° Ñ„Ð¸Ñ€Ð¼Ð° */
     private String name;
-    
+
     /** Bulgarian: ÐœÐžÐ› */
     private String mol;
-    
+
     /** Bulgarian: Ð•Ð˜Ðš */
     @Column(unique = true)
     @Length(min = 9, max = 9)
     private String eik;
-    
+
     /** Bulgarian: Ñ€ÐµÐ³Ð¸Ñ�Ñ‚Ñ€Ð¸Ñ€Ð°Ð½ Ð¿Ð¾ Ð”Ð”Ð¡ */
     @JsonProperty("isVatRegistered")
     private boolean isVATRegistered;
-    
+
     /** Bulgarian: Ð°Ð´Ñ€ÐµÑ� Ð½Ð° Ñ„Ð¸Ñ€Ð¼Ð°Ñ‚Ð° */
     private String address;
-    
+
     /** Bulgarian: Ð¸Ð·Ð´Ð°Ð´ÐµÐ½Ð¸ Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð¸ Ð¾Ñ‚ Ñ„Ð¸Ñ€Ð¼Ð° */
     @OneToMany(mappedBy = "sender", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JsonBackReference
+    // @JsonBackReference
     private Set<Invoice> issuedInvoices;
-    
+
     /** Bulgarian: Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð¸Ñ‚ÐµÐ»Ñ�, Ð·Ð°Ð¿Ð¸Ñ�Ð°Ð» Ñ„Ð¸Ñ€Ð¼Ð°Ñ‚Ð° */
     @ManyToOne
     @JoinColumn(name = "owner_id")
     @JsonBackReference
     private UserInfo owner;
-
-    @OneToOne(mappedBy = "company")
-    private InvoiceTemplate template;
 
     public Company() {
     }
@@ -68,11 +60,10 @@ public class Company extends BaseEntity {
     /**
      * Returns VAT number for Bulgarian companies only for now.
      *
-     * @return VAT number if VAT registered,
-     *         empty string otherwise
+     * @return VAT number if VAT registered, empty string otherwise
      */
     public String getVATNumber() {
-        if(isVATRegistered) {
+        if (isVATRegistered) {
             return "BG" + this.eik;
         }
         return "";
@@ -132,14 +123,6 @@ public class Company extends BaseEntity {
 
     public void setOwner(UserInfo owner) {
         this.owner = owner;
-    }
-
-    public InvoiceTemplate getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(InvoiceTemplate template) {
-        this.template = template;
     }
 
     @Override

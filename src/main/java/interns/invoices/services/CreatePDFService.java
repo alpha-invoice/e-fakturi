@@ -1,4 +1,4 @@
-package services;
+package interns.invoices.services;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

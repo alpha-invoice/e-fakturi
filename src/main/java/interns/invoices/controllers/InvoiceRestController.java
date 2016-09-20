@@ -29,7 +29,7 @@ import interns.invoices.models.UserInfo;
 import interns.invoices.repositories.CompanyRepository;
 import interns.invoices.repositories.InvoiceRepository;
 import interns.invoices.repositories.UserRepository;
-import services.CreatePDFService;
+import interns.invoices.services.CreatePDFService;
 
 /**
  * Defines a RestController class where we specify the endpoint URLs for the

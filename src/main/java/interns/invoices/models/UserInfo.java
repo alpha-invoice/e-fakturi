@@ -1,6 +1,7 @@
 package interns.invoices.models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,7 +15,6 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * Defines a user which holds the companies registered by him.
@@ -46,6 +46,10 @@ public class UserInfo {
     @Transient
     private String accessToken;
 
+    @OneToMany(mappedBy = "userInfo")
+    @JsonManagedReference
+    private List<InvoiceTemplate> templates;
+
     public UserInfo() {
         this.myCompanies = new HashSet<>();
     }
@@ -69,7 +73,7 @@ public class UserInfo {
     public Set<Company> getMyCompanies() {
         return myCompanies;
     }
-    
+
     public void addCompany(Company company) {
         this.myCompanies.add(company);
     }
@@ -80,6 +84,18 @@ public class UserInfo {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public List<InvoiceTemplate> getTemplates() {
+        return templates;
+    }
+
+    public void setTemplates(List<InvoiceTemplate> templates) {
+        this.templates = templates;
+    }
+
+    public void setMyCompanies(Set<Company> myCompanies) {
+        this.myCompanies = myCompanies;
     }
 
     @Override
