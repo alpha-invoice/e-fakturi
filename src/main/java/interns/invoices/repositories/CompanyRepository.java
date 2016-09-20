@@ -1,9 +1,12 @@
 package interns.invoices.repositories;
 
-import interns.invoices.models.Company;
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
+
+import interns.invoices.models.Company;
+import interns.invoices.models.UserInfo;
 
 /**
  * Standard repository interface which is

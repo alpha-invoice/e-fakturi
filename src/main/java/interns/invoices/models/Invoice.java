@@ -1,7 +1,7 @@
 package interns.invoices.models;
 
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -11,47 +11,51 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
- * Bulgarian: Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð° {@link JsonIdentityInfo} annotation is used every
+ * Bulgarian: Ã‘â€žÃ�Â°Ã�ÂºÃ‘â€šÃ‘Æ’Ã‘â‚¬Ã�Â° {@link JsonIdentityInfo} annotation is used every
  * time Jackson serializes your object. It will add an ID to it, so that it
  * won't entirely "scan" the object again every time. We use it to prevent
  * infinite recursion while having chained relations between objects UserInfo ->
  * Company -> Invoice -> Company
  */
 @Entity
-@JsonIdentityInfo(generator=ObjectIdGenerators.UUIDGenerator.class, property="@invoiceId")
 public class Invoice extends BaseEntity {
     /**
-     * Bulgarian: Ð½Ð¾Ð¼ÐµÑ€ Ð½Ð° Ñ„Ð°ÐºÑ‚ÑƒÑ€Ð°
+     * Bulgarian: Ã�Â½Ã�Â¾Ã�Â¼Ã�ÂµÃ‘â‚¬ Ã�Â½Ã�Â° Ã‘â€žÃ�Â°Ã�ÂºÃ‘â€šÃ‘Æ’Ã‘â‚¬Ã�Â°
      */
     @NotNull
     private String invoiceNumber;
 
-    @NotNull
-    private LocalDate date;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     /**
-     * Bulgarian: Ð´Ð¾Ñ�Ñ‚Ð°Ð²Ñ‡Ð¸Ðº
+     * Bulgarian: Ã�Â´Ã�Â¾Ã‘ï¿½Ã‘â€šÃ�Â°Ã�Â²Ã‘â€¡Ã�Â¸Ã�Âº
      */
     @ManyToOne
     @JoinColumn(name = "sender_id")
+    @JsonBackReference
     private Company sender;
 
     /**
-     * Bulgarian: Ð¿Ð¾Ð»ÑƒÑ‡Ð°Ñ‚ÐµÐ»
+     * Bulgarian: Ã�Â¿Ã�Â¾Ã�Â»Ã‘Æ’Ã‘â€¡Ã�Â°Ã‘â€šÃ�ÂµÃ�Â»
      */
     @OneToOne
     @NotNull
     private Company recipient;
 
     /**
-     * Bulgarian: Ð½Ð°Ð¸Ð¼ÐµÐ½Ð¾Ð²Ð°Ð½Ð¸Ñ� Ð½Ð° Ñ�Ñ‚Ð¾ÐºÐ¸Ñ‚Ðµ/ÑƒÑ�Ð»ÑƒÐ³Ð¸Ñ‚Ðµ
+     * Bulgarian: Ã�Â½Ã�Â°Ã�Â¸Ã�Â¼Ã�ÂµÃ�Â½Ã�Â¾Ã�Â²Ã�Â°Ã�Â½Ã�Â¸Ã‘ï¿½ Ã�Â½Ã�Â° Ã‘ï¿½Ã‘â€šÃ�Â¾Ã�ÂºÃ�Â¸Ã‘â€šÃ�Âµ/Ã‘Æ’Ã‘ï¿½Ã�Â»Ã‘Æ’Ã�Â³Ã�Â¸Ã‘â€šÃ�Âµ
      */
     @ElementCollection()
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -60,7 +64,7 @@ public class Invoice extends BaseEntity {
 
     public Invoice() {
     }
-
+    
     public String getInvoiceNumber() {
         return invoiceNumber;
     }
@@ -88,17 +92,13 @@ public class Invoice extends BaseEntity {
     public List<Item> getItems() {
         return items;
     }
-
+    
     public void setItems(List<Item> items) {
         this.items = items;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    }    
+        
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     @Override

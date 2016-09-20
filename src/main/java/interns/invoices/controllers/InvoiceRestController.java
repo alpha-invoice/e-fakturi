@@ -3,8 +3,13 @@ package interns.invoices.controllers;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
+import javax.xml.bind.JAXBException;
+
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -21,8 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import interns.invoices.exceptions.InvalidInvoiceException;
 import interns.invoices.models.Company;
 import interns.invoices.models.Invoice;
+import interns.invoices.models.UserInfo;
 import interns.invoices.repositories.CompanyRepository;
 import interns.invoices.repositories.InvoiceRepository;
+import interns.invoices.repositories.UserRepository;
 import services.CreatePDFService;
 
 /**
@@ -31,13 +38,16 @@ import services.CreatePDFService;
  * tells spring boot to inject an instance of our {@link CompanyRepository} and
  * {@link InvoiceRepository}.
  */
-@RestController()
+@RestController
+@CrossOrigin
 public class InvoiceRestController {
     private static final String CONTENT_DISPOSITION_TYPE_INLINE_STRING = "inline;filname=";
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
     private InvoiceRepository invoiceRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * GET Service URL for finding all created invoices.
@@ -47,20 +57,12 @@ public class InvoiceRestController {
      */
     // TODO: Should return all invoices created by a user
     @RequestMapping("/api/invoices")
-    Collection<Invoice> getAllInvoices() {
-        return this.invoiceRepository.findAll();
-    }
-
-    /**
-     * GET Service URL for finding an invoice by a given id.
-     *
-     * @param id
-     *            a path parameter which is passed from the url
-     * @return a json representation of an invoice or null.
-     */
-    @RequestMapping("/api/invoices/{id}")
-    Invoice getInvoiceById(@PathVariable("id") Long id) {
-        return this.invoiceRepository.findOne(id);
+    Collection<Invoice> getAllInvoices(HttpServletRequest request) {
+        UserInfo cachedUser = (UserInfo)request.getSession().getAttribute("user");
+        UserInfo user = this.userRepository.findOne(cachedUser.getId());
+        Collection<Invoice> invoices = new HashSet<>();
+        user.getMyCompanies().stream().forEach(company->invoices.addAll(company.getIssuedInvoices()));
+        return invoices;
     }
 
     /**
@@ -79,16 +81,35 @@ public class InvoiceRestController {
      *             {@link javax.validation.ConstraintViolationException} when
      *             validating the input json request body.
      */
-    @RequestMapping(value = "/api/invoices", method = RequestMethod.POST)
-    void saveInvoice(@RequestBody Invoice invoice) throws InvalidInvoiceException {
-        System.out.println(invoice);
+    @RequestMapping(value = "/api/invoices", method = RequestMethod.PATCH)
+    public ResponseEntity<InputStreamResource> saveInvoice(@RequestBody Invoice invoice, HttpServletRequest request) throws InvalidInvoiceException {
+        UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
+        
+        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);        
         try {
-            updateCompany(invoice.getSender());
+            invoice.getSender().setOwner(cachedUser);
+            Company sender = updateCompany(invoice.getSender());
             updateCompany(invoice.getRecipient());
             this.invoiceRepository.save(invoice);
-        } catch (javax.validation.ConstraintViolationException cve) {
+            cachedUser.addCompany(sender);
+            this.userRepository.save(cachedUser);
+            
+            
+            response = ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            CONTENT_DISPOSITION_TYPE_INLINE_STRING +
+                                    invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
+                    .body(new InputStreamResource(
+                            new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
+            
+        } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
+        } catch (Docx4JException | JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+        
+        return response;
     }
 
     /**
@@ -103,7 +124,7 @@ public class InvoiceRestController {
      *             Occurs when the entered data is in an invalid format.
      */
     @CrossOrigin
-    @RequestMapping(value = "/api/create/invoice", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/invoices/create", method = RequestMethod.POST)
     public ResponseEntity<InputStreamResource> createInvoice(@RequestBody Invoice invoice)
             throws InvalidInvoiceException {
         ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -115,6 +136,7 @@ public class InvoiceRestController {
                                     invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
                     .body(new InputStreamResource(
                             new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
+            
             this.invoiceRepository.save(invoice);
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
@@ -134,10 +156,10 @@ public class InvoiceRestController {
      * @param company
      *            the company we want to store in the database.
      */
-    private void updateCompany(Company company) {
-        Optional<Long> senderId = checkCompanyInDB(company.getEik());
-        senderId.ifPresent(company::setId);
-        this.companyRepository.save(company);
+    private Company updateCompany(Company company) {
+        Optional<Long> companyId = checkCompanyInDB(company.getEik());
+        companyId.ifPresent(company::setId);
+        return this.companyRepository.save(company);
     }
 
     /**
