@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,7 +46,7 @@ import interns.invoices.repositories.UserRepository;
 
 @RestController
 @CrossOrigin
-public class FileUploadController {
+public class TemplateController {
 
     private static final String INVALID_PLACEHOLDERS = "Placeholders are either not present or insuficient.";
     private static final Pattern PATTERN = Pattern.compile("\\$\\{(.*?)\\}");
@@ -129,10 +131,21 @@ public class FileUploadController {
             return ResponseEntity.badRequest().body(INVALID_PLACEHOLDERS);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(path = "api/templates", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    public Set<String> getTemplateNames(HttpServletRequest request) {
+        UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
+        Set<String> templateNames = new HashSet<String>();
+        for (InvoiceTemplate template : cachedUser.getTemplates()) {
+            templateNames.add(template.getName());
+        }
+        return templateNames;
     }
 
     /**
