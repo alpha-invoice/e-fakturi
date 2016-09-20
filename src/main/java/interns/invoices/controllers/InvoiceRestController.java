@@ -58,10 +58,10 @@ public class InvoiceRestController {
     // TODO: Should return all invoices created by a user
     @RequestMapping("/api/invoices")
     Collection<Invoice> getAllInvoices(HttpServletRequest request) {
-        UserInfo cachedUser = (UserInfo)request.getSession().getAttribute("user");
-        UserInfo user = this.userRepository.findOne(cachedUser.getId());
+        UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
+        //UserInfo user = this.userRepository.findOne(cachedUser.getId());
         Collection<Invoice> invoices = new HashSet<>();
-        user.getMyCompanies().stream().forEach(company->invoices.addAll(company.getIssuedInvoices()));
+        cachedUser.getMyCompanies().stream().forEach(company -> invoices.addAll(company.getIssuedInvoices()));
         return invoices;
     }
 
@@ -82,10 +82,11 @@ public class InvoiceRestController {
      *             validating the input json request body.
      */
     @RequestMapping(value = "/api/invoices", method = RequestMethod.PATCH)
-    public ResponseEntity<InputStreamResource> saveInvoice(@RequestBody Invoice invoice, HttpServletRequest request) throws InvalidInvoiceException {
+    public ResponseEntity<InputStreamResource> saveInvoice(@RequestBody Invoice invoice, HttpServletRequest request)
+            throws InvalidInvoiceException {
         UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
-        
-        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);        
+
+        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         try {
             invoice.getSender().setOwner(cachedUser);
             Company sender = updateCompany(invoice.getSender());
@@ -93,17 +94,16 @@ public class InvoiceRestController {
             this.invoiceRepository.save(invoice);
             cachedUser.addCompany(sender);
             this.userRepository.save(cachedUser);
-            
-            
+
             response = parseInvoiceToResponseObject(invoice);
-            
+
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
         } catch (Docx4JException | JAXBException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+
         return response;
     }
 
@@ -120,26 +120,28 @@ public class InvoiceRestController {
      */
     @CrossOrigin
     @RequestMapping(value = "/api/invoices/create", method = RequestMethod.POST)
-    public ResponseEntity<InputStreamResource> getInvoiceAsResponse(@RequestBody Invoice invoice,HttpServletRequest request)
-            throws InvalidInvoiceException {
+    public ResponseEntity<InputStreamResource> getInvoiceAsResponse(@RequestBody Invoice invoice,
+            HttpServletRequest request) throws InvalidInvoiceException {
         ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         try {
-            //get cached user
+            // get cached user
             UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
-            //set invoice owner
+            // set invoice owner
             invoice.getSender().setOwner(cachedUser);
-            //
+            //here we update the two companies in our database who match
+            //the companies from the invoice
             Company sender = updateCompany(invoice.getSender());
             updateCompany(invoice.getRecipient());
-            
-            cachedUser.addCompany(sender);
-            System.out.println("After add" + cachedUser.getMyCompanies().size());
+            //persisting the user
             this.userRepository.save(cachedUser);
             this.invoiceRepository.save(invoice);
             response = parseInvoiceToResponseObject(invoice);
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
+        } catch (IllegalStateException e) {
+            //when tring to update user existing company throws this exception 
+            System.out.println("Error while trying to update tha values of excisting enity with same values ");
         } catch (Exception e) {
             // In case docx4j cannot load OpenXML schemas.
             e.printStackTrace();
@@ -148,11 +150,12 @@ public class InvoiceRestController {
         return response;
     }
 
-    private ResponseEntity<InputStreamResource> parseInvoiceToResponseObject(Invoice invoice) throws Docx4JException, JAXBException, IOException {
+    private ResponseEntity<InputStreamResource> parseInvoiceToResponseObject(Invoice invoice)
+            throws Docx4JException, JAXBException, IOException {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
                 .header(HttpHeaders.CONTENT_DISPOSITION,
-                        CONTENT_DISPOSITION_TYPE_INLINE_STRING +
-                                invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
+                        CONTENT_DISPOSITION_TYPE_INLINE_STRING + invoice.getSender().getName()
+                                + invoice.getInvoiceNumber() + "\"")
                 .body(new InputStreamResource(
                         new ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
     }
