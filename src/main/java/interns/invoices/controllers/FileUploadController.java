@@ -1,7 +1,21 @@
 package interns.invoices.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.validation.Valid;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +39,30 @@ import interns.invoices.repositories.UserRepository;
  */
 @RestController()
 public class FileUploadController {
+
+    private static List<String> placeholders = new ArrayList<String>();
+    static {
+        placeholders.add("${recipient.name}");
+        placeholders.add("${recipient.address}");
+        placeholders.add("${recipient.eik}");
+        placeholders.add("${recipient.in}");
+        placeholders.add("${recipient.mol}");
+        placeholders.add("${recipient.mol}");
+        placeholders.add("${date}");
+        placeholders.add("${sender.name}");
+        placeholders.add("${sender.address}");
+        placeholders.add("${sender.eik}");
+        placeholders.add("${sender.in}");
+        placeholders.add("${sender.mol}");
+        placeholders.add("${sender.mol}");
+        placeholders.add("${number}");
+        placeholders.add("${item}");
+        placeholders.add("${quantity}");
+        placeholders.add("${price}");
+        placeholders.add("${total}");
+        placeholders.add("${total}");
+        placeholders.add("${withVAT}");
+    }
 
     @Autowired
     UserRepository userRepository;
@@ -60,10 +98,40 @@ public class FileUploadController {
          * This is the default setting for now existing user with ID 9L. The
          * value of user should be set from the session service.
          */
-
-
+        try {
+            File convFile = new File(file.getOriginalFilename());
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(file.getBytes());
+            fos.close();
+            validateTemplate(convFile);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    private static boolean validateTemplate(File file) throws InvalidFormatException, IOException {
+
+        FileInputStream fis = new FileInputStream(file);
+        XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(fis));
+
+        XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
+        List<String> tags = getTagValues(extractor.getText());
+
+        Collections.sort(placeholders);
+        Collections.sort(tags);
+        return placeholders.equals(tags);
+    }
+
+    private static List<String> getTagValues(final String str) {
+        final List<String> tagValues = new ArrayList<String>();
+        Pattern pattern = Pattern.compile("\\$\\{(.*?)\\}");
+        Matcher matcher = pattern.matcher(str);
+        while (matcher.find()) {
+            tagValues.add(matcher.group());
+        }
+        return tagValues;
+    }
 }
