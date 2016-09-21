@@ -38,7 +38,7 @@ import interns.invoices.models.Item;
 public class CreatePDFService {
 
     private static final String DEFAULT_FONT_FAMILY = "Arial";
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-LLLL-yyyy");
     private static HashSet<String> incompatibleFonts = new HashSet<>();
     // Populates the list of incompatible fonts.
     static {

@@ -136,10 +136,11 @@ public class InvoiceRestController {
         String templateName = invoice.getTemplateName();
         try {
             InputStream inputstream = null;
-            if (templateName.equals(TemplateController.DEFAUL_TEMPLATE)) {
+            if (TemplateRestController.DEFAUL_TEMPLATE.equals(templateName)) {
                 inputstream = new FileInputStream(DEFAULT_TEMPLATE_PATH);
             } else {
-                inputstream = new ByteArrayInputStream(cachedUser.getTemplate(templateName).getUserInvoiceTemplate());
+                inputstream = new ByteArrayInputStream(
+                        userRepository.findOne(cachedUser.getId()).getTemplate(templateName).getUserInvoiceTemplate());
             }
 
             response = ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)

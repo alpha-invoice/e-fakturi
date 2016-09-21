@@ -1,8 +1,8 @@
 package interns.invoices.controllers;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +44,7 @@ import interns.invoices.repositories.UserRepository;
 
 @RestController
 @CrossOrigin
-public class TemplateController {
+public class TemplateRestController {
 
     public static final String DEFAUL_TEMPLATE = "DEFAUL TEMPLATE";
     private static final String INVALID_PLACEHOLDERS = "Placeholders are either not present or insuficient.";
@@ -105,13 +105,11 @@ public class TemplateController {
             HttpServletRequest request) {
 
         String fileName = file.getOriginalFilename();
-        File convFile = new File(fileName);
 
-        try (FileOutputStream fos = new FileOutputStream(convFile)) {
-            convFile.createNewFile();
-            fos.write(file.getBytes());
 
-            if (!validateTemplate(convFile)) {
+        try {
+            InputStream inpustStream = new ByteArrayInputStream(file.getBytes());
+            if (!validateTemplate(inpustStream)) {
                 throw new InvalidFormatException(INVALID_PLACEHOLDERS);
             }
 
@@ -161,9 +159,9 @@ public class TemplateController {
      * @throws IOException
      *             Occurs when a file cannot be loaded, i.e. not found.
      */
-    private static boolean validateTemplate(File file) throws InvalidFormatException, IOException {
+    private static boolean validateTemplate(InputStream inputStream) throws InvalidFormatException, IOException {
 
-        XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(file));
+        XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(inputStream));
 
         XWPFWordExtractor extractor = new XWPFWordExtractor(xdoc);
         List<String> tags = getPlaceholders(extractor.getText());
