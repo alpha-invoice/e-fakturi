@@ -2,6 +2,7 @@ package interns.invoices.config;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Set;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,7 +23,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Tokeninfo;
 
+import interns.invoices.models.Company;
 import interns.invoices.models.UserInfo;
+import interns.invoices.repositories.CompanyRepository;
 import interns.invoices.repositories.UserRepository;
 
 /**
@@ -31,10 +34,11 @@ import interns.invoices.repositories.UserRepository;
  */
 public class RequestFilter extends OncePerRequestFilter {
     private UserRepository userRepository;
-
-    public RequestFilter(UserRepository userRepository) {
+    private CompanyRepository companyRepository;
+    public RequestFilter(UserRepository userRepository,CompanyRepository companyRepository) {
         super();
         this.userRepository = userRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -99,6 +103,9 @@ public class RequestFilter extends OncePerRequestFilter {
         if (userRepository.findOne(googleUser.getId()) == null) {
             userRepository.save(googleUser);
         }
+        //set user companies on load
+        Set<Company> companies = companyRepository.findByOwner(googleUser);
+        googleUser.setMyCompanies(companies);
         request.getSession().setAttribute("user", googleUser);
     }
 }

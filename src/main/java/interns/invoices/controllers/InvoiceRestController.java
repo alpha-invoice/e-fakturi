@@ -58,60 +58,9 @@ public class InvoiceRestController {
     @RequestMapping("/api/invoices")
     Collection<Invoice> getAllInvoices(HttpServletRequest request) {
         UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
-        UserInfo user = this.userRepository.findOne(cachedUser.getId());
         Collection<Invoice> invoices = new HashSet<>();
-        user.getMyCompanies().stream().forEach(company -> invoices.addAll(company.getIssuedInvoices()));
+        cachedUser.getMyCompanies().stream().forEach(company -> invoices.addAll(company.getIssuedInvoices()));
         return invoices;
-    }
-
-    /**
-     * PATCH Service URL which stores a new invoice to the database. If the
-     * request json body contains a sender company and a recipient company which
-     * have an eik which is already contained in our database, the companies are
-     * then updated by the new values passed from the json. If the EIK number is
-     * not found in the companies database, it stores a new company record in
-     * the database.
-     *
-     * @param invoice
-     *            the invoice to be created which is passed by a json body
-     *            request parameter.
-     * @throws InvalidInvoiceException
-     *             thrown when the JPA throws a
-     *             {@link javax.validation.ConstraintViolationException} when
-     *             validating the input json request body.
-     */
-    @RequestMapping(value = "/api/invoices", method = RequestMethod.PATCH)
-    public ResponseEntity<InputStreamResource> saveInvoice(@RequestBody Invoice invoice, HttpServletRequest request)
-            throws InvalidInvoiceException {
-        UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
-
-        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        // try {
-        // invoice.getSender().setOwner(cachedUser);
-        // Company sender = updateCompany(invoice.getSender());
-        // updateCompany(invoice.getRecipient());
-        // // this.invoiceRepository.save(invoice);
-        // // cachedUser.addCompany(sender);
-        // // this.userRepository.save(cachedUser);
-        //
-        // response = ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
-        // .header(HttpHeaders.CONTENT_DISPOSITION,
-        // CONTENT_DISPOSITION_TYPE_INLINE_STRING +
-        // invoice.getSender().getName() + invoice.getInvoiceNumber() + "\"")
-        // .body(new InputStreamResource(
-        // new ByteArrayInputStream(
-        // CreatePDFService.createInvoicePDF(invoice,
-        // template).toByteArray())));
-        //
-        // } catch (javax.validation.ConstraintViolationException | IOException
-        // cve) {
-        // throw new InvalidInvoiceException(cve);
-        // } catch (Docx4JException | JAXBException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-
-        return response;
     }
 
     /**
@@ -150,17 +99,42 @@ public class InvoiceRestController {
                     .body(new InputStreamResource(
                             new ByteArrayInputStream(
                                     CreatePDFService.createInvoicePDF(invoice, inputstream).toByteArray())));
-
-            // this.invoiceRepository.save(invoice);
         } catch (javax.validation.ConstraintViolationException | IOException cve) {
             throw new InvalidInvoiceException(cve);
+        } catch (IllegalStateException e) {
+            // when tring to update user existing company throws this exception
+            System.out.println("Error while trying to update tha values of excisting enity with same values ");
         } catch (Exception e) {
             // In case docx4j cannot load OpenXML schemas.
             e.printStackTrace();
         }
 
+            // get cached user
+            // set invoice owner
+            invoice.getSender().setOwner(cachedUser);
+            //here we update the two companies in our database who match
+            //the companies from the invoice
+            Company sender = updateCompany(invoice.getSender());
+            cachedUser.addCompany(sender);
+            updateCompany(invoice.getRecipient());
+            this.invoiceRepository.save(invoice);
+        // response = parseInvoiceToResponseObject(invoice);
+
         return response;
     }
+
+    // private ResponseEntity<InputStreamResource>
+    // parseInvoiceToResponseObject(Invoice invoice)
+    // throws Docx4JException, JAXBException, IOException {
+    // return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
+    // .header(HttpHeaders.CONTENT_DISPOSITION,
+    // CONTENT_DISPOSITION_TYPE_INLINE_STRING + invoice.getSender().getName()
+    // + invoice.getInvoiceNumber() + "\"")
+    // .body(new InputStreamResource(
+    // new
+    // ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
+    // }
+
 
     /**
      * Updates a company record by verifying whether it exists. If a company
