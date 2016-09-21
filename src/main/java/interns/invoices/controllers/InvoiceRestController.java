@@ -79,9 +79,28 @@ public class InvoiceRestController {
     @RequestMapping(value = "/api/invoices/create", method = RequestMethod.POST)
     public ResponseEntity<InputStreamResource> createInvoice(@RequestBody Invoice invoice, HttpServletRequest request)
             throws InvalidInvoiceException {
-        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         UserInfo cachedUser = (UserInfo) request.getSession().getAttribute("user");
 
+        saveInvoice(invoice, cachedUser);
+
+        return parseInvoiceToResponseObject(invoice, cachedUser);
+    }
+
+    private void saveInvoice(Invoice invoice, UserInfo cachedUser) {
+        // get cached user
+        // set invoice owner
+        invoice.getSender().setOwner(cachedUser);
+        // here we update the two companies in our database who match
+        // the companies from the invoice
+        Company sender = updateCompany(invoice.getSender());
+        cachedUser.addCompany(sender);
+        updateCompany(invoice.getRecipient());
+        this.invoiceRepository.save(invoice);
+    }
+
+    private ResponseEntity<InputStreamResource> parseInvoiceToResponseObject(Invoice invoice, UserInfo cachedUser) {
+
+        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         String templateName = invoice.getTemplateName();
         try {
             InputStream inputstream = null;
@@ -109,32 +128,8 @@ public class InvoiceRestController {
             e.printStackTrace();
         }
 
-            // get cached user
-            // set invoice owner
-            invoice.getSender().setOwner(cachedUser);
-            //here we update the two companies in our database who match
-            //the companies from the invoice
-            Company sender = updateCompany(invoice.getSender());
-            cachedUser.addCompany(sender);
-            updateCompany(invoice.getRecipient());
-            this.invoiceRepository.save(invoice);
-        // response = parseInvoiceToResponseObject(invoice);
-
         return response;
     }
-
-    // private ResponseEntity<InputStreamResource>
-    // parseInvoiceToResponseObject(Invoice invoice)
-    // throws Docx4JException, JAXBException, IOException {
-    // return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
-    // .header(HttpHeaders.CONTENT_DISPOSITION,
-    // CONTENT_DISPOSITION_TYPE_INLINE_STRING + invoice.getSender().getName()
-    // + invoice.getInvoiceNumber() + "\"")
-    // .body(new InputStreamResource(
-    // new
-    // ByteArrayInputStream(CreatePDFService.createInvoicePDF(invoice).toByteArray())));
-    // }
-
 
     /**
      * Updates a company record by verifying whether it exists. If a company
