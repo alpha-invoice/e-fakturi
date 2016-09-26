@@ -1,6 +1,7 @@
 package interns.invoices.controllers;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,11 +13,13 @@ import java.util.regex.Pattern;
 import javax.validation.Valid;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -146,6 +149,20 @@ public class TemplateRestController {
         return templateNames;
     }
 
+    @CrossOrigin
+    @RequestMapping(path = "api/templates/default", method = RequestMethod.GET, produces = "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    public ResponseEntity<InputStreamResource> downloadDefaultTemplate() {
+        ResponseEntity<InputStreamResource> response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        File defaultTemplate = new File("defaultTemplate.docx");
+        try {
+            response = ResponseEntity.ok().body(new InputStreamResource(new ByteArrayInputStream(
+                    FileUtils.readFileToByteArray(defaultTemplate))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
     /**
      * Checks whether a docx template is valid - contains all necessary
      * placeholders.
